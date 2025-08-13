@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "build": "npx tailwindcss -i ./assets/styles/app.css -o ./public/build/app.css --minify",
+    "watch": "npx tailwindcss -i ./assets/styles/app.css -o ./public/build/app.css --watch"
+  },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.10",
     "tailwindcss": "^4.1.11"
