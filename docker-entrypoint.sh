@@ -1,14 +1,17 @@
 #!/bin/bash
 set -e
 
-# Wait for database to be ready
-echo "Waiting for database to be ready..."
-until php bin/console doctrine:query:sql "SELECT 1" > /dev/null 2>&1; do
-    echo "Database is not ready yet. Waiting..."
-    sleep 2
-done
-
-echo "Database is ready!"
+# Wait for database to be ready (skip for SQLite)
+if [[ $DATABASE_URL == *"mysql"* ]]; then
+    echo "Waiting for MySQL database to be ready..."
+    until php bin/console doctrine:query:sql "SELECT 1" > /dev/null 2>&1; do
+        echo "Database is not ready yet. Waiting..."
+        sleep 2
+    done
+    echo "Database is ready!"
+else
+    echo "Using SQLite database..."
+fi
 
 # Run migrations if needed
 echo "Running database migrations..."

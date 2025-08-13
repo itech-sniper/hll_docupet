@@ -17,7 +17,7 @@ A comprehensive pet registration and management system built with Symfony 6.4, f
 
 - **Backend**: Symfony 6.4 (PHP 8.2)
 - **Frontend**: Symfony UX Live Components, Tailwind CSS
-- **Database**: MySQL 8.0
+- **Database**: SQLite (default) / MySQL 8.0 (Docker)
 - **Testing**: PHPUnit
 - **Containerization**: Docker & Docker Compose
 - **Package Management**: Composer (PHP), NPM (JavaScript)
@@ -36,7 +36,17 @@ git clone https://github.com/itech-sniper/hll_docupet.git
 cd hll_docupet
 ```
 
-### 2. Start the Application
+### 2. Set Up Environment
+
+```bash
+# Copy environment file and configure
+cp .env.example .env
+
+# Edit .env file if needed (default SQLite configuration should work)
+# For Docker MySQL, uncomment the MySQL DATABASE_URL line
+```
+
+### 3. Start the Application
 
 ```bash
 # Build and start all services
@@ -46,7 +56,7 @@ docker-compose up --build -d
 docker-compose logs -f app
 ```
 
-### 3. Set Up the Database
+### 4. Set Up the Database
 
 ```bash
 # Create database and run migrations
@@ -57,7 +67,7 @@ docker-compose exec app php bin/console doctrine:migrations:migrate --no-interac
 docker-compose exec app php bin/console doctrine:fixtures:load --no-interaction
 ```
 
-### 4. Build Frontend Assets
+### 5. Build Frontend Assets
 
 ```bash
 # Install dependencies and build assets
@@ -65,7 +75,7 @@ docker-compose exec app npm install
 docker-compose exec app npm run build
 ```
 
-### 5. Access the Application
+### 6. Access the Application
 
 - **Main Application**: http://localhost:8000
 - **Database Admin (phpMyAdmin)**: http://localhost:8080
