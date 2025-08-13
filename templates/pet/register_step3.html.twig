@@ -1,0 +1,309 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pet Registration - Step 3{% endblock %}
+
+{% block body %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-6">
+        <div class="flex items-center space-x-3">
+            <span class="text-2xl">🐾</span>
+            <h1 class="text-2xl font-bold text-gray-900">Pet Registration</h1>
+        </div>
+        <a href="{{ path('pet_list') }}" class="btn btn-secondary">View Pets</a>
+    </div>
+
+    <!-- Main Title -->
+    <h2 class="text-center text-3xl font-bold text-gray-900 mb-8">Pet Registration</h2>
+
+    <!-- Progress Steps -->
+    <div class="grid grid-cols-3 gap-4 mb-12">
+        <div class="text-center">
+            <div class="step-container">
+                <div class="step-circle completed">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <div class="step-label completed">Pet Info</div>
+            </div>
+        </div>
+        <div class="text-center">
+            <div class="step-container">
+                <div class="step-circle completed">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <div class="step-label completed">Breed Info</div>
+            </div>
+        </div>
+        <div class="text-center">
+            <div class="step-container">
+                <div class="step-circle active">
+                    <span class="step-number">3</span>
+                </div>
+                <div class="step-label active">Additional Info</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Form Card -->
+    <div class="bg-white shadow-lg rounded-2xl border-0 max-w-2xl mx-auto">
+        <div class="p-8">
+            <h3 class="text-center text-xl font-bold text-gray-900 mb-6">Step 3: Additional Information</h3>
+
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-error">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+            <form method="post" id="finalForm" class="space-y-6">
+                <div>
+                    <label for="sex" class="block text-sm font-semibold text-gray-700 mb-2">
+                        Gender <span class="text-red-500">*</span>
+                    </label>
+                    <select class="form-select text-lg py-3" id="sex" name="sex" required>
+                        <option value="">Select gender</option>
+                        {% for key, value in sexChoices %}
+                            <option value="{{ value }}">{{ key }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">
+                        Do you know the date of birth? <span class="text-red-500">*</span>
+                    </label>
+                    <div class="mt-3 space-y-2">
+                        <div class="flex items-center">
+                            <input class="form-radio" type="radio" name="knows_birth_date" id="knows_birth_yes" value="yes">
+                            <label class="ml-2 text-gray-700" for="knows_birth_yes">Yes</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input class="form-radio" type="radio" name="knows_birth_date" id="knows_birth_no" value="no">
+                            <label class="ml-2 text-gray-700" for="knows_birth_no">No</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Date of Birth (shown when "Yes" is selected) -->
+                <div id="date_of_birth_section" style="display: none;">
+                    <label for="date_of_birth" class="block text-sm font-semibold text-gray-700 mb-2">
+                        Date of Birth
+                    </label>
+                    <input type="date" class="form-input text-lg py-3" id="date_of_birth" name="date_of_birth">
+                </div>
+
+                <!-- Approximate Age (shown when "No" is selected) -->
+                <div id="approximate_age_section" style="display: none;">
+                    <label for="approximate_age" class="block text-sm font-semibold text-gray-700 mb-2">
+                        Approximate Age (years) <span class="text-red-500">*</span>
+                    </label>
+                    <select class="form-select text-lg py-3" id="approximate_age" name="approximate_age">
+                        <option value="">Select age</option>
+                        {% for age in ageChoices %}
+                            <option value="{{ age }}">{{ age }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="flex space-x-4 pt-4">
+                    <a href="{{ path('pet_register_step2') }}" class="flex-1 btn btn-secondary text-lg py-3 text-center">Back</a>
+                    <button type="submit" class="flex-1 btn btn-primary text-lg py-3 font-semibold">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center mt-8 text-gray-500">
+        <p class="text-sm">© 2025 Pet Registration. All rights reserved.</p>
+        <div class="mt-2 space-x-4">
+            <a href="#" class="text-gray-500 hover:text-gray-700 text-sm">Privacy</a>
+            <a href="#" class="text-gray-500 hover:text-gray-700 text-sm">Terms</a>
+            <a href="#" class="text-gray-500 hover:text-gray-700 text-sm">Contact</a>
+        </div>
+    </div>
+</div>
+
+<style>
+.step-container {
+    position: relative;
+}
+
+.step-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #e5e7eb;
+    color: #6b7280;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
+    font-weight: bold;
+    font-size: 18px;
+    transition: all 0.3s ease;
+}
+
+.step-circle.active {
+    background-color: #3b82f6;
+    color: white;
+}
+
+.step-circle.completed {
+    background-color: #10b981;
+    color: white;
+}
+
+.step-label {
+    font-size: 14px;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.step-label.active {
+    color: #3b82f6;
+    font-weight: 600;
+}
+
+.step-label.completed {
+    color: #10b981;
+    font-weight: 600;
+}
+
+/* Form Styles */
+.form-input, .form-select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #d1d5db;
+    border-radius: 12px;
+    font-size: 16px;
+    background-color: white;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.form-input:focus, .form-select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-radio {
+    margin-right: 8px;
+    accent-color: #3b82f6;
+}
+
+.btn {
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: #3b82f6;
+    color: white;
+    border-color: #3b82f6;
+}
+
+.btn-primary:hover {
+    background-color: #2563eb;
+    border-color: #2563eb;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.btn-secondary {
+    background-color: #f3f4f6;
+    color: #374151;
+    border-color: #d1d5db;
+}
+
+.btn-secondary:hover {
+    background-color: #e5e7eb;
+    border-color: #9ca3af;
+}
+
+.alert {
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+}
+
+.alert-error {
+    background-color: #fef2f2;
+    border: 1px solid #fca5a5;
+    color: #dc2626;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const knowsBirthYes = document.getElementById('knows_birth_yes');
+    const knowsBirthNo = document.getElementById('knows_birth_no');
+    const dateOfBirthSection = document.getElementById('date_of_birth_section');
+    const approximateAgeSection = document.getElementById('approximate_age_section');
+
+    // Handle birth date knowledge change
+    function handleBirthDateChange() {
+        if (knowsBirthYes.checked) {
+            dateOfBirthSection.style.display = 'block';
+            approximateAgeSection.style.display = 'none';
+            document.getElementById('approximate_age').value = '';
+        } else if (knowsBirthNo.checked) {
+            dateOfBirthSection.style.display = 'none';
+            approximateAgeSection.style.display = 'block';
+            document.getElementById('date_of_birth').value = '';
+        } else {
+            dateOfBirthSection.style.display = 'none';
+            approximateAgeSection.style.display = 'none';
+        }
+    }
+
+    knowsBirthYes.addEventListener('change', handleBirthDateChange);
+    knowsBirthNo.addEventListener('change', handleBirthDateChange);
+
+    // Form validation
+    document.getElementById('finalForm').addEventListener('submit', function(e) {
+        const sex = document.getElementById('sex').value;
+        const knowsBirthDate = document.querySelector('input[name="knows_birth_date"]:checked');
+        
+        if (!sex) {
+            e.preventDefault();
+            alert('Please select a gender.');
+            return;
+        }
+
+        if (!knowsBirthDate) {
+            e.preventDefault();
+            alert('Please specify if you know the date of birth.');
+            return;
+        }
+
+        if (knowsBirthDate.value === 'yes') {
+            const dateOfBirth = document.getElementById('date_of_birth').value;
+            if (!dateOfBirth) {
+                e.preventDefault();
+                alert('Please enter the date of birth.');
+                return;
+            }
+        } else if (knowsBirthDate.value === 'no') {
+            const approximateAge = document.getElementById('approximate_age').value;
+            if (!approximateAge) {
+                e.preventDefault();
+                alert('Please select an approximate age.');
+                return;
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

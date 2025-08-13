@@ -1,0 +1,155 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Registration Successful{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <!-- Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-paw text-primary me-2" style="font-size: 1.5rem;"></i>
+                    <h4 class="mb-0 text-primary fw-bold">Pet Registration</h4>
+                </div>
+                <a href="{{ path('pet_list') }}" class="btn btn-outline-primary">View Pets</a>
+            </div>
+
+            <!-- Main Title -->
+            <h2 class="text-center mb-4 fw-bold">Pet Registration</h2>
+
+            <!-- Progress Steps -->
+            <div class="row mb-5">
+                <div class="col-4 text-center">
+                    <div class="step-container">
+                        <div class="step-circle completed">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="step-label completed">Pet Info</div>
+                    </div>
+                </div>
+                <div class="col-4 text-center">
+                    <div class="step-container">
+                        <div class="step-circle completed">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="step-label completed">Breed Info</div>
+                    </div>
+                </div>
+                <div class="col-4 text-center">
+                    <div class="step-container">
+                        <div class="step-circle completed">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="step-label completed">Additional Info</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success Card -->
+            <div class="card shadow-sm border-0 success-card">
+                <div class="card-body p-5 text-center">
+                    <div class="success-icon mb-4">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    
+                    <h3 class="fw-bold mb-3">Registration Successful!</h3>
+                    <p class="text-muted mb-4">Your pet has been successfully registered.</p>
+
+                    <div class="d-flex gap-3 justify-content-center">
+                        {% if pet is defined %}
+                            <a href="{{ path('pet_summary', {'id': pet.id}) }}" class="btn btn-primary btn-lg fw-semibold">View Pet Details</a>
+                        {% endif %}
+                        <a href="{{ path('pet_list') }}" class="btn btn-outline-secondary btn-lg">Back to List</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="text-center mt-4 text-muted">
+                <small>© 2025 Pet Registration. All rights reserved.</small>
+                <div class="mt-2">
+                    <a href="#" class="text-muted me-3">Privacy</a>
+                    <a href="#" class="text-muted me-3">Terms</a>
+                    <a href="#" class="text-muted">Contact</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.step-container {
+    position: relative;
+}
+
+.step-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #e9ecef;
+    color: #6c757d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
+    font-weight: bold;
+    font-size: 18px;
+    transition: all 0.3s ease;
+}
+
+.step-circle.completed {
+    background-color: #28a745;
+    color: white;
+}
+
+.step-label {
+    font-size: 14px;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.step-label.completed {
+    color: #28a745;
+    font-weight: 600;
+}
+
+.success-card {
+    border-radius: 15px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9f7ef 100%);
+}
+
+.success-icon {
+    font-size: 4rem;
+    color: #28a745;
+}
+
+.btn-primary {
+    background-color: #6f42c1;
+    border-color: #6f42c1;
+    border-radius: 10px;
+    padding: 12px 30px;
+}
+
+.btn-primary:hover {
+    background-color: #5a359a;
+    border-color: #5a359a;
+}
+
+.btn-outline-secondary {
+    border-radius: 10px;
+    padding: 12px 30px;
+}
+
+.btn-outline-primary {
+    color: #6f42c1;
+    border-color: #6f42c1;
+    border-radius: 8px;
+}
+
+.btn-outline-primary:hover {
+    background-color: #6f42c1;
+    border-color: #6f42c1;
+}
+</style>
+{% endblock %}

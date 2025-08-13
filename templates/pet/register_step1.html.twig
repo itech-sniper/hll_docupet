@@ -1,0 +1,215 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pet Registration - Step 1{% endblock %}
+
+{% block body %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-6">
+        <div class="flex items-center space-x-3">
+            <span class="text-2xl">🐾</span>
+            <h1 class="text-2xl font-bold text-gray-900">Pet Registration</h1>
+        </div>
+        <a href="{{ path('pet_list') }}" class="btn btn-secondary">View Pets</a>
+    </div>
+
+    <!-- Main Title -->
+    <h2 class="text-center text-3xl font-bold text-gray-900 mb-8">Pet Registration</h2>
+
+    <!-- Progress Steps -->
+    <div class="grid grid-cols-3 gap-4 mb-12">
+        <div class="text-center">
+            <div class="step-container">
+                <div class="step-circle active">
+                    <span class="step-number">1</span>
+                </div>
+                <div class="step-label active">Pet Info</div>
+            </div>
+        </div>
+        <div class="text-center">
+            <div class="step-container">
+                <div class="step-circle">
+                    <span class="step-number">2</span>
+                </div>
+                <div class="step-label">Breed Info</div>
+            </div>
+        </div>
+        <div class="text-center">
+            <div class="step-container">
+                <div class="step-circle">
+                    <span class="step-number">3</span>
+                </div>
+                <div class="step-label">Additional Info</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Form Card -->
+    <div class="bg-white shadow-lg rounded-2xl border-0 max-w-2xl mx-auto">
+        <div class="p-8">
+            <h3 class="text-center text-xl font-bold text-gray-900 mb-6">Step 1: Pet Information</h3>
+
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-error">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+            <form method="post" class="space-y-6">
+                <div>
+                    <label for="name" class="block text-sm font-semibold text-gray-700 mb-2">
+                        Pet Name <span class="text-red-500">*</span>
+                    </label>
+                    <input type="text"
+                           class="form-input text-lg py-3"
+                           id="name"
+                           name="name"
+                           value=""
+                           placeholder="Enter your pet's name"
+                           required>
+                </div>
+
+                <div>
+                    <label for="type_id" class="block text-sm font-semibold text-gray-700 mb-2">
+                        Pet Type <span class="text-red-500">*</span>
+                    </label>
+                    <select class="form-select text-lg py-3" id="type_id" name="type_id" required>
+                        <option value="">Select pet type</option>
+                        {% for petType in petTypes %}
+                            <option value="{{ petType.id }}">
+                                {{ petType.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="pt-4">
+                    <button type="submit" class="w-full btn btn-primary text-lg py-3 font-semibold">Next</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center mt-8 text-gray-500">
+        <p class="text-sm">© 2025 Pet Registration. All rights reserved.</p>
+        <div class="mt-2 space-x-4">
+            <a href="#" class="text-gray-500 hover:text-gray-700 text-sm">Privacy</a>
+            <a href="#" class="text-gray-500 hover:text-gray-700 text-sm">Terms</a>
+            <a href="#" class="text-gray-500 hover:text-gray-700 text-sm">Contact</a>
+        </div>
+    </div>
+</div>
+
+<style>
+.step-container {
+    position: relative;
+}
+
+.step-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #e5e7eb;
+    color: #6b7280;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
+    font-weight: bold;
+    font-size: 18px;
+    transition: all 0.3s ease;
+}
+
+.step-circle.active {
+    background-color: #3b82f6;
+    color: white;
+}
+
+.step-circle.completed {
+    background-color: #10b981;
+    color: white;
+}
+
+.step-label {
+    font-size: 14px;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.step-label.active {
+    color: #3b82f6;
+    font-weight: 600;
+}
+
+.step-label.completed {
+    color: #10b981;
+    font-weight: 600;
+}
+
+/* Form Styles */
+.form-input, .form-select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #d1d5db;
+    border-radius: 12px;
+    font-size: 16px;
+    background-color: white;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.form-input:focus, .form-select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.btn {
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: #3b82f6;
+    color: white;
+    border-color: #3b82f6;
+}
+
+.btn-primary:hover {
+    background-color: #2563eb;
+    border-color: #2563eb;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.btn-secondary {
+    background-color: #f3f4f6;
+    color: #374151;
+    border-color: #d1d5db;
+}
+
+.btn-secondary:hover {
+    background-color: #e5e7eb;
+    border-color: #9ca3af;
+}
+
+.alert {
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+}
+
+.alert-error {
+    background-color: #fef2f2;
+    border: 1px solid #fca5a5;
+    color: #dc2626;
+}
+</style>
+{% endblock %}
