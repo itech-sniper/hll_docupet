@@ -33,17 +33,19 @@ COPY . /var/www/html
 RUN curl -sS https://get.symfony.com/cli/installer | bash
 RUN mv /root/.symfony*/bin/symfony /usr/local/bin/symfony
 
-# Create Symfony project if it doesn't exist
-RUN if [ ! -f "composer.json" ]; then \
-        symfony new . --version="6.4.*" --webapp --no-git; \
+# Install dependencies if composer.json exists
+RUN if [ -f "composer.json" ]; then \
+        composer install --optimize-autoloader; \
     fi
 
-# Install dependencies
-RUN composer install --no-dev --optimize-autoloader
+# Install Node.js dependencies and build assets if package.json exists
+RUN if [ -f "package.json" ]; then \
+        npm install && npm run build; \
+    fi
 
-# Install Node.js dependencies and build assets
-RUN npm install
-RUN npm run build
+# Copy and set up entrypoint script
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html
@@ -52,5 +54,5 @@ RUN chmod -R 755 /var/www/html
 # Expose port 8000
 EXPOSE 8000
 
-# Start Symfony development server
-CMD ["symfony", "server:start", "--host=0.0.0.0", "--port=8000", "--no-tls"]
+# Use entrypoint script
+ENTRYPOINT ["docker-entrypoint.sh"]

@@ -1,0 +1,39 @@
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Documentation
+README.md
+
+# IDE
+.vscode
+.idea
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+var/log/*
+
+# Cache
+var/cache/*
+.env.local
+.env.*.local
+
+# Dependencies (will be installed in container)
+node_modules
+vendor
+
+# Build artifacts
+public/build/*
+
+# Test files
+tests/
+phpunit.xml.dist
