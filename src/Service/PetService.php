@@ -50,15 +50,23 @@ class PetService
             }
         }
 
-        if (isset($data['breed_id']) && $data['breed_id']) {
+        // Handle breed selection
+        if (isset($data['breed_id']) && $data['breed_id'] && $data['breed_id'] !== 'cant_find') {
             $breed = $this->breedRepository->find($data['breed_id']);
             if ($breed) {
                 $pet->setBreed($breed);
                 $pet->setCustomBreed(null); // Clear custom breed if selecting from list
             }
-        } elseif (isset($data['custom_breed']) && $data['custom_breed']) {
-            $pet->setCustomBreed($data['custom_breed']);
-            $pet->setBreed(null); // Clear breed if using custom
+        } elseif (isset($data['breed_id']) && $data['breed_id'] === 'cant_find') {
+            // Handle "Can't find it?" option
+            $pet->setBreed(null);
+            if (isset($data['custom_breed_option'])) {
+                if ($data['custom_breed_option'] === 'dont_know') {
+                    $pet->setCustomBreed("I don't know");
+                } elseif ($data['custom_breed_option'] === 'mix') {
+                    $pet->setCustomBreed("It's a mix");
+                }
+            }
         }
 
         if (isset($data['sex'])) {
