@@ -7,6 +7,36 @@
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>🐾</text></svg>">
 
         {% block stylesheets %}
+            <script src="https://cdn.tailwindcss.com"></script>
+            <style>
+                .btn {
+                    @apply px-6 py-3 rounded-lg font-semibold transition-all duration-200 inline-block text-center border-2 cursor-pointer;
+                }
+
+                .btn-primary {
+                    @apply bg-blue-600 text-white hover:bg-blue-700 border-blue-600 hover:border-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5;
+                }
+
+                .btn-secondary {
+                    @apply bg-gray-200 text-gray-900 hover:bg-gray-300 border-gray-300 hover:border-gray-400 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 shadow-md hover:shadow-lg;
+                }
+
+                .form-input {
+                    @apply block w-full rounded-lg border-2 border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 focus:ring-2 focus:ring-opacity-25 px-4 py-3 text-gray-900 transition-all duration-200;
+                }
+
+                .form-select {
+                    @apply block w-full rounded-lg border-2 border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 focus:ring-2 focus:ring-opacity-25 px-4 py-3 text-gray-900 transition-all duration-200 bg-white;
+                }
+
+                .form-radio {
+                    @apply text-blue-600 focus:ring-blue-500 mr-2;
+                }
+
+                .danger-badge {
+                    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800;
+                }
+            </style>
         {% endblock %}
 
         {% block javascripts %}
@@ -26,9 +56,9 @@
                             </a>
                         </div>
                         <div class="flex items-center space-x-4">
-                            <a href="{{ path('home') }}" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium">Home</a>
-                            <a href="{{ path('pet_register') }}" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium">Register Pet</a>
-                            <a href="{{ path('pet_list') }}" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium">Pet List</a>
+                            <a href="{{ path('home') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                            <a href="{{ path('pet_register') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Register Pet</a>
+                            <a href="{{ path('pet_list') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Pet List</a>
                         </div>
                     </div>
                 </div>
