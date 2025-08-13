@@ -1,0 +1,133 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ pet.name }} - Pet Summary - HLL DocuPet{% endblock %}
+
+{% block body %}
+<div class="px-4 sm:px-0">
+    <div class="mx-auto max-w-3xl">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                Pet Registration Complete!
+            </h1>
+            <p class="mt-4 text-lg text-gray-600">
+                Here's a summary of {{ pet.name }}'s information
+            </p>
+        </div>
+
+        <!-- Pet Summary Card -->
+        <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-xl overflow-hidden">
+            <!-- Header with pet name and danger indicator -->
+            <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-2xl font-bold text-gray-900">{{ pet.name }}</h2>
+                    {% if pet.isDangerousAnimal %}
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800">
+                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                            </svg>
+                            Dangerous Animal
+                        </span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Pet Details -->
+            <div class="px-6 py-6">
+                <dl class="grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-2">
+                    <!-- Pet Type -->
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Pet Type</dt>
+                        <dd class="mt-1 text-lg text-gray-900">{{ pet.type.name }}</dd>
+                    </div>
+
+                    <!-- Breed -->
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Breed</dt>
+                        <dd class="mt-1 text-lg text-gray-900">
+                            {% if pet.breedName %}
+                                {{ pet.breedName }}
+                                {% if pet.breed and pet.breed.isDangerous %}
+                                    <span class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">
+                                        Dangerous
+                                    </span>
+                                {% endif %}
+                            {% else %}
+                                <span class="text-gray-500">Not specified</span>
+                            {% endif %}
+                        </dd>
+                    </div>
+
+                    <!-- Age -->
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Age</dt>
+                        <dd class="mt-1 text-lg text-gray-900">
+                            {% if pet.age %}
+                                {{ pet.age }} year{{ pet.age != 1 ? 's' : '' }} old
+                            {% else %}
+                                <span class="text-gray-500">Not specified</span>
+                            {% endif %}
+                        </dd>
+                    </div>
+
+                    <!-- Date of Birth -->
+                    {% if pet.dateOfBirth %}
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Date of Birth</dt>
+                        <dd class="mt-1 text-lg text-gray-900">{{ pet.dateOfBirth|date('F j, Y') }}</dd>
+                    </div>
+                    {% endif %}
+
+                    <!-- Sex -->
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Sex</dt>
+                        <dd class="mt-1 text-lg text-gray-900 capitalize">{{ pet.sex }}</dd>
+                    </div>
+
+                    <!-- Registration Date -->
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Registration Date</dt>
+                        <dd class="mt-1 text-lg text-gray-900">{{ pet.createdAt|date('F j, Y \\a\\t g:i A') }}</dd>
+                    </div>
+                </dl>
+            </div>
+
+            <!-- Danger Warning (if applicable) -->
+            {% if pet.isDangerousAnimal %}
+            <div class="px-6 py-4 bg-red-50 border-t border-red-200">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-sm font-medium text-red-800">
+                            Dangerous Animal Notice
+                        </h3>
+                        <div class="mt-2 text-sm text-red-700">
+                            <p>
+                                This pet has been classified as a dangerous animal based on its breed. Please ensure compliance with local regulations and safety requirements.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="{{ path('pet_register') }}" class="btn btn-primary px-6 py-3">
+                Register Another Pet
+            </a>
+            <a href="{{ path('pet_list') }}" class="btn btn-secondary px-6 py-3">
+                View All Pets
+            </a>
+            <a href="{{ path('home') }}" class="btn btn-secondary px-6 py-3">
+                Back to Home
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" class="h-full">
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}HLL DocuPet{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>🐾</text></svg>">
+
         {% block stylesheets %}
         {% endblock %}
 
@@ -11,7 +13,48 @@
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
-    <body>
-        {% block body %}{% endblock %}
+    <body class="h-full bg-gray-50">
+        <div class="min-h-full">
+            <!-- Navigation -->
+            <nav class="bg-white shadow-sm border-b border-gray-200">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex justify-between h-16">
+                        <div class="flex items-center">
+                            <a href="{{ path('home') }}" class="flex items-center space-x-2">
+                                <span class="text-2xl">🐾</span>
+                                <span class="text-xl font-bold text-gray-900">HLL DocuPet</span>
+                            </a>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <a href="{{ path('home') }}" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                            <a href="{{ path('pet_register') }}" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium">Register Pet</a>
+                            <a href="{{ path('pet_list') }}" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium">Pet List</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Flash Messages -->
+            {% for type, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+                        <div class="rounded-md p-4 {% if type == 'error' %}bg-red-50 border border-red-200{% else %}bg-green-50 border border-green-200{% endif %}">
+                            <div class="flex">
+                                <div class="ml-3">
+                                    <p class="text-sm {% if type == 'error' %}text-red-800{% else %}text-green-800{% endif %}">
+                                        {{ message }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+
+            <!-- Main Content -->
+            <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+                {% block body %}{% endblock %}
+            </main>
+        </div>
     </body>
 </html>
