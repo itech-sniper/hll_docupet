@@ -50,7 +50,6 @@ class PetService
                 $pet->setCustomBreed(null);
             }
         } elseif (isset($data['breed_id']) && 'cant_find' === $data['breed_id']) {
-
             $pet->setBreed(null);
             if (isset($data['custom_breed_option'])) {
                 if ('dont_know' === $data['custom_breed_option']) {
@@ -65,7 +64,6 @@ class PetService
             $pet->setSex($data['sex']);
         }
 
-
         if (isset($data['knows_birth_date']) && 'yes' === $data['knows_birth_date']) {
             if (isset($data['date_of_birth'])) {
                 $dateOfBirth = \DateTime::createFromFormat('Y-m-d', $data['date_of_birth']);
@@ -76,7 +74,6 @@ class PetService
         } elseif (isset($data['approximate_age'])) {
             $pet->setApproximateAge((int) $data['approximate_age']);
         }
-
 
         $this->updateDangerousAnimalFlag($pet);
     }
@@ -138,6 +135,4 @@ class PetService
 
         return $choices;
     }
-
-
 }

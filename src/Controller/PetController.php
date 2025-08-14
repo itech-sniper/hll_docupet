@@ -165,7 +165,6 @@ class PetController extends AbstractController
                 ]);
             }
 
-
             $completeData = array_merge($petData, [
                 'knows_birth_date' => $knowsBirthDate,
                 'date_of_birth' => $dateOfBirth,

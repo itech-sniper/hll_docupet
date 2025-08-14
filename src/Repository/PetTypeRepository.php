@@ -23,6 +23,4 @@ class PetTypeRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
-
 }

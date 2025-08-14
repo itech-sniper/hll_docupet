@@ -26,6 +26,4 @@ class BreedRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
-
 }

@@ -78,6 +78,27 @@ docker-compose exec app php bin/phpunit tests/Service/
 docker-compose exec app php bin/phpunit tests/Controller/
 ```
 
+## Code quality checks
+
+The project includes automated code quality tools to keep everything clean and consistent.
+
+**Check code style** (follows Symfony standards):
+```bash
+docker-compose exec app vendor/bin/php-cs-fixer fix --dry-run --diff
+```
+
+**Fix code style automatically**:
+```bash
+docker-compose exec app vendor/bin/php-cs-fixer fix
+```
+
+**Run static analysis** (finds potential bugs and type issues):
+```bash
+docker-compose exec app php -d memory_limit=512M vendor/bin/phpstan analyse
+```
+
+**Pro tip**: Run these before committing your changes. The CS Fixer will automatically clean up formatting issues, and PHPStan helps catch bugs early.
+
 ## Development on macOS
 
 If you want to work on the code, you can watch for changes (this will automatically rebuild CSS when you save files):
