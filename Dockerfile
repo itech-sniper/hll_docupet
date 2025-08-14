@@ -28,7 +28,7 @@ WORKDIR /var/www/html
 COPY . /var/www/html
 
 # Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --optimize-autoloader
 
 # Create Apache virtual host
 RUN echo '<VirtualHost *:80>\n\
