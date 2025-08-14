@@ -183,9 +183,6 @@ class Pet
         return $this;
     }
 
-    /**
-     * Calculate age based on date of birth or return approximate age.
-     */
     public function getAge(): ?int
     {
         if ($this->dateOfBirth) {
@@ -197,9 +194,6 @@ class Pet
         return $this->approximateAge;
     }
 
-    /**
-     * Get the display name for the breed (custom or from breed entity).
-     */
     public function getBreedName(): ?string
     {
         if ($this->customBreed) {

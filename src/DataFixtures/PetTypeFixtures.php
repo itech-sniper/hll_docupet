@@ -11,7 +11,6 @@ class PetTypeFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        // Create Pet Types
         $dogType = new PetType();
         $dogType->setName('Dog');
         $dogType->setDescription('Domestic dog breeds');
@@ -22,9 +21,7 @@ class PetTypeFixtures extends Fixture
         $catType->setDescription('Domestic cat breeds');
         $manager->persist($catType);
 
-        // Dog Breeds
         $dogBreeds = [
-            // Safe breeds
             ['name' => 'Labrador Retriever', 'dangerous' => false],
             ['name' => 'Golden Retriever', 'dangerous' => false],
             ['name' => 'German Shepherd', 'dangerous' => false],
@@ -38,11 +35,9 @@ class PetTypeFixtures extends Fixture
             ['name' => 'Boxer', 'dangerous' => false],
             ['name' => 'Border Collie', 'dangerous' => false],
 
-            // Dangerous breeds (as specified in requirements)
             ['name' => 'Pitbull', 'dangerous' => true],
             ['name' => 'Mastiff', 'dangerous' => true],
 
-            // Additional dangerous breeds for completeness
             ['name' => 'American Staffordshire Terrier', 'dangerous' => true],
             ['name' => 'Doberman Pinscher', 'dangerous' => true],
         ];
@@ -55,7 +50,6 @@ class PetTypeFixtures extends Fixture
             $manager->persist($breed);
         }
 
-        // Cat Breeds
         $catBreeds = [
             ['name' => 'Persian', 'dangerous' => false],
             ['name' => 'Maine Coon', 'dangerous' => false],

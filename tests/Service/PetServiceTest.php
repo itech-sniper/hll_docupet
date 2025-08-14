@@ -35,8 +35,7 @@ class PetServiceTest extends TestCase
             $this->entityManager,
             $this->petRepository,
             $this->petTypeRepository,
-            $this->breedRepository,
-            $this->validator
+            $this->breedRepository
         );
     }
 

@@ -16,9 +16,6 @@ class PetTypeRepository extends ServiceEntityRepository
         parent::__construct($registry, PetType::class);
     }
 
-    /**
-     * Find all pet types ordered by name.
-     */
     public function findAllOrdered(): array
     {
         return $this->createQueryBuilder('pt')
@@ -27,15 +24,5 @@ class PetTypeRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    /**
-     * Find pet type by name (case insensitive).
-     */
-    public function findByName(string $name): ?PetType
-    {
-        return $this->createQueryBuilder('pt')
-            ->where('LOWER(pt.name) = LOWER(:name)')
-            ->setParameter('name', $name)
-            ->getQuery()
-            ->getOneOrNullResult();
-    }
+
 }
