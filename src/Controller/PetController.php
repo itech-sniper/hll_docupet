@@ -103,6 +103,41 @@ class PetController extends AbstractController
         ]);
     }
 
+    #[Route('/register/step2-test', name: 'pet_register_step2_test', methods: ['GET'])]
+    public function registerStep2Test(): Response
+    {
+        // Test step 2 with mock data
+        $petData = [
+            'name' => 'Test Pet',
+            'type_id' => 7, // Dog type ID
+        ];
+
+        return $this->render('pet/register_step2.html.twig', [
+            'petData' => $petData,
+        ]);
+    }
+
+    #[Route('/register/step3-test', name: 'pet_register_step3_test', methods: ['GET'])]
+    public function registerStep3Test(): Response
+    {
+        // Test step 3 with mock data
+        $petData = [
+            'name' => 'Test Pet',
+            'type_id' => 7,
+            'breed_option' => 'know_breed',
+            'breed_id' => 1,
+        ];
+
+        $ageChoices = $this->petService->getAgeChoices();
+        $sexChoices = Pet::getSexChoices();
+
+        return $this->render('pet/register_step3.html.twig', [
+            'petData' => $petData,
+            'ageChoices' => $ageChoices,
+            'sexChoices' => $sexChoices,
+        ]);
+    }
+
     #[Route('/register/step3', name: 'pet_register_step3', methods: ['GET', 'POST'])]
     public function registerStep3(Request $request): Response
     {
