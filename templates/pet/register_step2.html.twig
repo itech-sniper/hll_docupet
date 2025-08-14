@@ -64,10 +64,10 @@
                     </label>
                     <select class="form-select text-lg py-3" id="breed_option" name="breed_option" required>
                         <option value="">Select an option</option>
-                        <option value="know_breed" {{ petData.breed_option == 'know_breed' ? 'selected' : '' }}>I know the breed</option>
-                        <option value="dont_know" {{ petData.breed_option == 'dont_know' ? 'selected' : '' }}>Don't know</option>
-                        <option value="mix" {{ petData.breed_option == 'mix' ? 'selected' : '' }}>Mix</option>
-                        <option value="custom" {{ petData.breed_option == 'custom' ? 'selected' : '' }}>Other (specify)</option>
+                        <option value="know_breed" {{ (petData.breed_option ?? '') == 'know_breed' ? 'selected' : '' }}>I know the breed</option>
+                        <option value="dont_know" {{ (petData.breed_option ?? '') == 'dont_know' ? 'selected' : '' }}>Don't know</option>
+                        <option value="mix" {{ (petData.breed_option ?? '') == 'mix' ? 'selected' : '' }}>Mix</option>
+                        <option value="custom" {{ (petData.breed_option ?? '') == 'custom' ? 'selected' : '' }}>Other (specify)</option>
                     </select>
                 </div>
 
