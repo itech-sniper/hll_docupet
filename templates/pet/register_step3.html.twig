@@ -67,7 +67,7 @@
                     <select class="form-select text-lg py-3" id="sex" name="sex" required>
                         <option value="">Select gender</option>
                         {% for key, value in sexChoices %}
-                            <option value="{{ value }}">{{ key }}</option>
+                            <option value="{{ value }}" {{ petData.sex == value ? 'selected' : '' }}>{{ key }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -78,11 +78,11 @@
                     </label>
                     <div class="mt-3 space-y-2">
                         <div class="flex items-center">
-                            <input class="form-radio" type="radio" name="knows_birth_date" id="knows_birth_yes" value="yes">
+                            <input class="form-radio" type="radio" name="knows_birth_date" id="knows_birth_yes" value="yes" {{ petData.knows_birth_date == 'yes' ? 'checked' : '' }}>
                             <label class="ml-2 text-gray-700" for="knows_birth_yes">Yes</label>
                         </div>
                         <div class="flex items-center">
-                            <input class="form-radio" type="radio" name="knows_birth_date" id="knows_birth_no" value="no">
+                            <input class="form-radio" type="radio" name="knows_birth_date" id="knows_birth_no" value="no" {{ petData.knows_birth_date == 'no' ? 'checked' : '' }}>
                             <label class="ml-2 text-gray-700" for="knows_birth_no">No</label>
                         </div>
                     </div>
@@ -93,7 +93,7 @@
                     <label for="date_of_birth" class="block text-sm font-semibold text-gray-700 mb-2">
                         Date of Birth
                     </label>
-                    <input type="date" class="form-input text-lg py-3" id="date_of_birth" name="date_of_birth">
+                    <input type="date" class="form-input text-lg py-3" id="date_of_birth" name="date_of_birth" value="{{ petData.date_of_birth ?? '' }}">
                 </div>
 
                 <!-- Approximate Age (shown when "No" is selected) -->
@@ -104,7 +104,7 @@
                     <select class="form-select text-lg py-3" id="approximate_age" name="approximate_age">
                         <option value="">Select age</option>
                         {% for age in ageChoices %}
-                            <option value="{{ age }}">{{ age }}</option>
+                            <option value="{{ age }}" {{ petData.approximate_age == age ? 'selected' : '' }}>{{ age }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -290,6 +290,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     knowsBirthYes.addEventListener('change', handleBirthDateChange);
     knowsBirthNo.addEventListener('change', handleBirthDateChange);
+
+    // Initialize form state based on existing values
+    console.log('Initializing Step 3 form state');
+    console.log('knows_birth_yes checked:', knowsBirthYes.checked);
+    console.log('knows_birth_no checked:', knowsBirthNo.checked);
+
+    // Trigger initial state based on existing selection
+    if (knowsBirthYes.checked || knowsBirthNo.checked) {
+        console.log('Found existing selection, triggering handleBirthDateChange');
+        handleBirthDateChange();
+    }
 
     // Form validation
     document.getElementById('finalForm').addEventListener('submit', function(e) {

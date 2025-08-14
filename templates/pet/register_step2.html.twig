@@ -64,10 +64,10 @@
                     </label>
                     <select class="form-select text-lg py-3" id="breed_option" name="breed_option" required>
                         <option value="">Select an option</option>
-                        <option value="know_breed">I know the breed</option>
-                        <option value="dont_know">Don't know</option>
-                        <option value="mix">Mix</option>
-                        <option value="custom">Other (specify)</option>
+                        <option value="know_breed" {{ petData.breed_option == 'know_breed' ? 'selected' : '' }}>I know the breed</option>
+                        <option value="dont_know" {{ petData.breed_option == 'dont_know' ? 'selected' : '' }}>Don't know</option>
+                        <option value="mix" {{ petData.breed_option == 'mix' ? 'selected' : '' }}>Mix</option>
+                        <option value="custom" {{ petData.breed_option == 'custom' ? 'selected' : '' }}>Other (specify)</option>
                     </select>
                 </div>
 
@@ -311,14 +311,29 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(breeds => {
                 console.log('Breeds loaded:', breeds);
+                const selectedBreedId = {{ petData.breed_id|default('null') }};
+                console.log('Selected breed ID from session:', selectedBreedId);
+
                 breedSelect.innerHTML = '<option value="">Select breed</option>';
                 breeds.forEach(breed => {
                     const option = document.createElement('option');
                     option.value = breed.id;
                     option.textContent = breed.name;
                     option.dataset.dangerous = breed.isDangerous;
+
+                    // Select the breed if it matches the session data
+                    if (selectedBreedId && breed.id == selectedBreedId) {
+                        option.selected = true;
+                        console.log('Pre-selecting breed:', breed.name);
+                    }
+
                     breedSelect.appendChild(option);
                 });
+
+                // Trigger danger check if a breed is pre-selected
+                if (selectedBreedId) {
+                    checkBreedDanger();
+                }
             })
             .catch(error => {
                 console.error('Error loading breeds:', error);
@@ -339,10 +354,22 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Initialize form state
+    // Initialize form state based on existing values
+    console.log('Initializing form state. Current breed_option value:', breedOption.value);
+
+    // Always trigger change event to initialize the form properly
     if (breedOption.value) {
+        console.log('Triggering change event for existing value:', breedOption.value);
         breedOption.dispatchEvent(new Event('change'));
     }
+
+    // Also check for any pre-selected breed and trigger danger check
+    setTimeout(function() {
+        if (breedSelect.value) {
+            console.log('Found pre-selected breed:', breedSelect.value);
+            checkBreedDanger();
+        }
+    }, 100);
 });
 </script>
 {% endblock %}
