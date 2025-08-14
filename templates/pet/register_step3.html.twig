@@ -247,10 +247,19 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('Step 3 JavaScript loaded');
+
     const knowsBirthYes = document.getElementById('knows_birth_yes');
     const knowsBirthNo = document.getElementById('knows_birth_no');
     const dateOfBirthSection = document.getElementById('date_of_birth_section');
     const approximateAgeSection = document.getElementById('approximate_age_section');
+
+    console.log('Elements found:', {
+        knowsBirthYes: !!knowsBirthYes,
+        knowsBirthNo: !!knowsBirthNo,
+        dateOfBirthSection: !!dateOfBirthSection,
+        approximateAgeSection: !!approximateAgeSection
+    });
 
     // Handle birth date knowledge change
     function handleBirthDateChange() {

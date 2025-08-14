@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JavaScript Debug Test</title>
+</head>
+<body>
+    <h1>JavaScript Debug Test</h1>
+    
+    <div>
+        <label for="breed_option">Breed Option:</label>
+        <select id="breed_option">
+            <option value="">Select an option</option>
+            <option value="know_breed">I know the breed</option>
+            <option value="dont_know">Don't know</option>
+            <option value="mix">Mix</option>
+            <option value="custom">Other (specify)</option>
+        </select>
+    </div>
+    
+    <div id="breed_selection" style="display: none;">
+        <label for="breed_id">Breed:</label>
+        <select id="breed_id">
+            <option value="">Select breed</option>
+        </select>
+    </div>
+    
+    <div id="custom_breed_input" style="display: none;">
+        <label for="custom_breed_name">Custom Breed:</label>
+        <input type="text" id="custom_breed_name" />
+    </div>
+    
+    <div id="dangerous_breed_warning" style="display: none;">
+        <strong>Warning:</strong> <span id="breed_name_display"></span> is dangerous.
+    </div>
+    
+    <script>
+        console.log('Debug script loaded');
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded');
+            
+            const breedOption = document.getElementById('breed_option');
+            const breedSelection = document.getElementById('breed_selection');
+            const customBreedInput = document.getElementById('custom_breed_input');
+            const dangerousBreedWarning = document.getElementById('dangerous_breed_warning');
+            
+            console.log('Elements found:', {
+                breedOption: !!breedOption,
+                breedSelection: !!breedSelection,
+                customBreedInput: !!customBreedInput,
+                dangerousBreedWarning: !!dangerousBreedWarning
+            });
+            
+            if (breedOption) {
+                breedOption.addEventListener('change', function() {
+                    const value = this.value;
+                    console.log('Breed option changed to:', value);
+                    
+                    // Hide all conditional fields
+                    breedSelection.style.display = 'none';
+                    customBreedInput.style.display = 'none';
+                    dangerousBreedWarning.style.display = 'none';
+                    
+                    if (value === 'know_breed') {
+                        console.log('Showing breed selection');
+                        breedSelection.style.display = 'block';
+                    } else if (value === 'custom') {
+                        console.log('Showing custom breed input');
+                        customBreedInput.style.display = 'block';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -242,12 +242,23 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('Step 2 JavaScript loaded');
+
     const breedOption = document.getElementById('breed_option');
     const breedSelection = document.getElementById('breed_selection');
     const customBreedInput = document.getElementById('custom_breed_input');
     const breedSelect = document.getElementById('breed_id');
     const dangerousBreedWarning = document.getElementById('dangerous_breed_warning');
     const breedNameDisplay = document.getElementById('breed_name_display');
+
+    console.log('Elements found:', {
+        breedOption: !!breedOption,
+        breedSelection: !!breedSelection,
+        customBreedInput: !!customBreedInput,
+        breedSelect: !!breedSelect,
+        dangerousBreedWarning: !!dangerousBreedWarning,
+        breedNameDisplay: !!breedNameDisplay
+    });
 
     // Handle breed option change
     breedOption.addEventListener('change', function() {
@@ -279,14 +290,27 @@ document.addEventListener('DOMContentLoaded', function() {
     // Load breeds based on pet type
     function loadBreeds() {
         const petTypeId = {{ petData.type_id|default('null') }};
+        console.log('Pet type ID:', petTypeId);
+
         if (!petTypeId || petTypeId === null) {
-            console.error('No pet type ID found');
+            console.error('No pet type ID found - redirecting to step 1');
+            // Show error message and redirect
+            alert('Please start from Step 1 to select your pet type first.');
+            window.location.href = '/pet/register/step1';
             return;
         }
 
+        console.log('Loading breeds for pet type:', petTypeId);
         fetch(`/pet/api/breeds/${petTypeId}`)
-            .then(response => response.json())
+            .then(response => {
+                console.log('API response status:', response.status);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(breeds => {
+                console.log('Breeds loaded:', breeds);
                 breedSelect.innerHTML = '<option value="">Select breed</option>';
                 breeds.forEach(breed => {
                     const option = document.createElement('option');
@@ -298,6 +322,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => {
                 console.error('Error loading breeds:', error);
+                alert('Error loading breeds. Please try again.');
             });
     }
 
