@@ -1,286 +1,115 @@
-# HLL DocuPet
+# DocuPet - Pet Registration System
 
-A comprehensive pet registration and management system built with Symfony 6.4, featuring breed-specific safety information, flexible age tracking, and modern responsive design.
+Hey there! This is a simple pet registration app I built using Symfony. It helps you register pets with all their details like breed, age, and automatically flags dangerous animals for safety compliance.
 
-## 🚀 Features
+## What it does
 
-- **Pet Registration**: Complete pet registration with name, type, breed, age, and sex
-- **Dynamic Breed Selection**: Breed options filtered by pet type (Cat/Dog)
-- **Dangerous Animal Detection**: Automatic identification of dangerous breeds with safety warnings
-- **Flexible Age Input**: Support for both exact date of birth and approximate age
-- **Custom Breed Options**: Handle unknown breeds or mixed breeds
-- **Responsive Design**: Modern, mobile-first design using Tailwind CSS
-- **Safety Compliance**: Clear danger indicators for regulatory compliance
-- **Comprehensive Testing**: Unit tests, integration tests, and data fixtures
+This app lets you register pets step by step. You pick the pet type (dog or cat), then choose from a list of breeds that updates automatically. It's pretty smart about dangerous breeds too - it'll warn you if you're registering something like a Pit Bull or Rottweiler.
 
-## 🛠 Technology Stack
+The cool thing is you can enter age either as a birth date or just say "about 2 years old" if you're not sure. It also handles mixed breeds and custom entries when the exact breed isn't in the list.
 
-- **Backend**: Symfony 6.4 (PHP 8.2)
-- **Frontend**: Symfony UX Live Components, Tailwind CSS
-- **Database**: SQLite (default) / MySQL 8.0 (Docker)
-- **Testing**: PHPUnit
-- **Containerization**: Docker & Docker Compose
-- **Package Management**: Composer (PHP), NPM (JavaScript)
+## Tech stuff
 
-## 📋 Requirements
+Built with Symfony 6.4 and PHP 8.2. Uses MySQL for the database, Tailwind CSS for styling, and Docker to make everything easy to run. There are proper tests too.
 
-- Docker Desktop (for macOS)
-- Git
+## Getting it running
 
-## 🚀 Quick Start (macOS)
+You'll need Docker Desktop and Git installed.
 
-### 1. Clone the Repository
-
+First, grab the code:
 ```bash
 git clone https://github.com/itech-sniper/hll_docupet.git
 cd hll_docupet
 ```
 
-### 2. Set Up Environment
-
+Copy the environment file:
 ```bash
-# Copy environment file and configure
 cp .env.example .env
-
-# Edit .env file if needed (default SQLite configuration should work)
-# For Docker MySQL, uncomment the MySQL DATABASE_URL line
 ```
 
-### 3. Start the Application
-
+Start everything up:
 ```bash
-# Build and start all services
 docker-compose up --build -d
-
-# Wait for services to be ready (about 30-60 seconds)
-docker-compose logs -f app
 ```
 
-### 4. Set Up the Database
-
+Wait a minute for everything to start, then set up the database:
 ```bash
-# Create database and run migrations
 docker-compose exec app php bin/console doctrine:database:create --if-not-exists
 docker-compose exec app php bin/console doctrine:migrations:migrate --no-interaction
-
-# Load sample data (pet types and breeds)
 docker-compose exec app php bin/console doctrine:fixtures:load --no-interaction
 ```
 
-### 5. Build Frontend Assets
-
+Build the frontend:
 ```bash
-# Install dependencies and build assets
 docker-compose exec app npm install
 docker-compose exec app npm run build
 ```
 
-### 6. Access the Application
+That's it! Open http://localhost:8001 and you should see the app running.
 
-- **Main Application**: http://localhost:8001
-- **Database**: localhost:3307
-  - Username: `root`
-  - Password: `root`
+## How to use it
 
-## 📖 Usage Guide
+Just go to the homepage and click "Register Your Pet". The form walks you through everything step by step. Pick your pet type first, then the breed list updates automatically. If you can't find the exact breed, there's an option for that too.
 
-### Registering a Pet
+The age thing is flexible - if you know the exact birthday, great. If not, just pick "about X years old" from the dropdown.
 
-1. Navigate to http://localhost:8001
-2. Click "Register Your Pet"
-3. Fill out the registration form:
-   - **Pet's Name**: Enter your pet's name
-   - **Pet Type**: Select Cat or Dog
-   - **Breed**: Choose from the filtered breed list or select "Can't find it?"
-   - **Age**: Choose whether you know the exact birth date or approximate age
-   - **Sex**: Select Male, Female, or Unknown
-4. Click "Save Pet" to complete registration
-5. View the pet summary with all details and safety indicators
+## Running tests
 
-### Viewing Registered Pets
-
-1. Click "Pet List" in the navigation
-2. Browse all registered pets with summary information
-3. Click "View Details" on any pet card to see full information
-
-## 🏗 Architecture & Design
-
-### Database Schema
-
-The application uses a normalized database design:
-
-- **PetType**: Stores pet types (Cat, Dog)
-- **Breed**: Stores breeds linked to pet types with danger flags
-- **Pet**: Main entity storing all pet information
-
-### MVC Pattern
-
-- **Controllers**: Handle HTTP requests and responses
-- **Services**: Contain business logic (PetService)
-- **Repositories**: Handle data access
-- **Entities**: Represent database models
-
-### Frontend Architecture
-
-- **Responsive Design**: Mobile-first approach with Tailwind CSS
-- **Progressive Enhancement**: JavaScript enhances the base HTML experience
-- **Accessibility**: Proper form labels, ARIA attributes, and keyboard navigation
-
-## 🧪 Testing
-
-### Running Tests
-
+To run the tests:
 ```bash
-# Run all tests
 docker-compose exec app php bin/phpunit
+```
 
-# Run specific test suites
-docker-compose exec app php bin/phpunit tests/Entity/
+Or run specific parts:
+```bash
 docker-compose exec app php bin/phpunit tests/Service/
 docker-compose exec app php bin/phpunit tests/Controller/
 ```
 
-### Test Coverage
+## Development
 
-- **Entity Tests**: Test business logic and data validation
-- **Service Tests**: Test business operations and data processing
-- **Controller Tests**: Test HTTP endpoints and API responses
-
-## 🔧 Development
-
-### Local Development Setup
-
+If you want to work on the code, you can watch for changes:
 ```bash
-# Start development environment
-docker-compose up -d
-
-# Watch for asset changes (in a separate terminal)
 docker-compose exec app npm run watch
+```
 
-# View logs
+Check the logs if something goes wrong:
+```bash
 docker-compose logs -f app
+```
 
-# Access container shell
+Get into the container to run commands:
+```bash
 docker-compose exec app bash
 ```
 
-### Database Operations
+## Database stuff
 
+If you need to reset everything:
 ```bash
-# Create new migration
-docker-compose exec app php bin/console make:migration
-
-# Run migrations
-docker-compose exec app php bin/console doctrine:migrations:migrate
-
-# Reset database (development only)
 docker-compose exec app php bin/console doctrine:database:drop --force
 docker-compose exec app php bin/console doctrine:database:create
 docker-compose exec app php bin/console doctrine:migrations:migrate --no-interaction
 docker-compose exec app php bin/console doctrine:fixtures:load --no-interaction
 ```
 
-### Code Quality
+## Troubleshooting
 
+If something's not working:
+
+**Ports already in use?** Stop the containers and edit docker-compose.yml to use different ports.
+
+**Database won't connect?** Try restarting it:
 ```bash
-# Check code style (if PHP CS Fixer is installed)
-docker-compose exec app vendor/bin/php-cs-fixer fix --dry-run
-
-# Run static analysis (if PHPStan is installed)
-docker-compose exec app vendor/bin/phpstan analyse
-```
-
-## 🚨 Safety Features
-
-### Dangerous Breed Detection
-
-The system automatically identifies dangerous breeds:
-
-- **Dogs**: Pitbull, Mastiff, American Staffordshire Terrier, Doberman Pinscher
-- **Visual Indicators**: Warning badges and detailed notices
-- **Compliance**: Helps ensure regulatory compliance
-
-### Data Validation
-
-- Required field validation
-- Age range validation (0-50 years)
-- Sex enumeration validation
-- Breed-type consistency validation
-
-## 🐳 Docker Services
-
-- **app**: Main Symfony application (PHP 8.2-FPM)
-- **db**: MySQL 8.0 database
-- **phpmyadmin**: Database administration interface
-
-## 📁 Project Structure
-
-```
-├── src/
-│   ├── Controller/     # HTTP controllers
-│   ├── Entity/         # Database entities
-│   ├── Repository/     # Data access layer
-│   ├── Service/        # Business logic
-│   └── DataFixtures/   # Sample data
-├── templates/          # Twig templates
-├── tests/              # Test suites
-├── assets/             # Frontend assets
-├── public/             # Web root
-├── docker-compose.yml  # Docker configuration
-├── Dockerfile          # Application container
-└── tailwind.config.js  # Tailwind CSS configuration
-```
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests for new functionality
-5. Ensure all tests pass
-6. Submit a pull request
-
-## 📝 License
-
-This project is proprietary software developed for HLL DocuPet.
-
-## 🆘 Troubleshooting
-
-### Common Issues
-
-**Port conflicts**: If ports 8001 or 3307 are in use:
-```bash
-# Stop the containers
-docker-compose down
-
-# Edit docker-compose.yml to use different ports
-# Then restart
-docker-compose up -d
-```
-
-**Database connection issues**:
-```bash
-# Restart database service
 docker-compose restart db
-
-# Check database logs
-docker-compose logs db
 ```
 
-**Asset build issues**:
+**Frontend looks broken?** Rebuild the assets:
 ```bash
-# Clear npm cache and reinstall
-docker-compose exec app rm -rf node_modules package-lock.json
-docker-compose exec app npm install
 docker-compose exec app npm run build
 ```
 
-### Getting Help
-
-- Check the application logs: `docker-compose logs app`
-- Check database logs: `docker-compose logs db`
-- Verify all services are running: `docker-compose ps`
-
-## 📞 Support
-
-For technical support or questions about this implementation, please contact the development team.
+Check the logs if you're stuck:
+```bash
+docker-compose logs app
+```

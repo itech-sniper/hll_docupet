@@ -1,4 +1,3 @@
 doctrine:
     dbal:
-        # Use SQLite for tests for speed
-        url: 'sqlite:///%kernel.project_dir%/var/test.db'
+        url: 'mysql://root:password@127.0.0.1:3306/hll_docupet_test?serverVersion=8.0&charset=utf8mb4'
