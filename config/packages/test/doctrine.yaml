@@ -1,0 +1,4 @@
+doctrine:
+    dbal:
+        # Use SQLite for tests for speed
+        url: 'sqlite:///%kernel.project_dir%/var/test.db'

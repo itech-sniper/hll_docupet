@@ -2,10 +2,9 @@
 
 namespace App\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\PetType;
 use App\Entity\Breed;
+use App\Entity\PetType;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class PetControllerTest extends WebTestCase
 {
@@ -58,7 +57,7 @@ class PetControllerTest extends WebTestCase
 
         $this->client->submitForm('Next', [
             'name' => 'Test Pet',
-            'type_id' => $petType->getId()
+            'type_id' => $petType->getId(),
         ]);
 
         $this->assertResponseRedirects('/pet/register/step2');
@@ -78,12 +77,12 @@ class PetControllerTest extends WebTestCase
         $petType = $this->entityManager->getRepository(PetType::class)->findOneBy([]);
         $this->client->submitForm('Next', [
             'name' => 'Test Pet',
-            'type_id' => $petType->getId()
+            'type_id' => $petType->getId(),
         ]);
 
         $this->client->followRedirect();
         $this->client->submitForm('Next', [
-            'breed_option' => 'dont_know'
+            'breed_option' => 'dont_know',
         ]);
 
         $this->assertResponseRedirects('/pet/register/step3');
@@ -113,20 +112,20 @@ class PetControllerTest extends WebTestCase
         $petType = $this->entityManager->getRepository(PetType::class)->findOneBy([]);
         $this->client->submitForm('Next', [
             'name' => 'Fluffy',
-            'type_id' => $petType->getId()
+            'type_id' => $petType->getId(),
         ]);
 
         // Step 2: Breed information
         $this->client->followRedirect();
         $this->client->submitForm('Next', [
-            'breed_option' => 'dont_know'
+            'breed_option' => 'dont_know',
         ]);
 
         // Step 3: Additional details
         $this->client->followRedirect();
         $this->client->submitForm('Submit', [
             'sex' => 'female',
-            'knows_birth_date' => 'no'
+            'knows_birth_date' => 'no',
         ]);
 
         // Should redirect to success page
@@ -148,7 +147,7 @@ class PetControllerTest extends WebTestCase
         $petType = $this->entityManager->getRepository(PetType::class)->findOneBy([]);
         $this->assertNotNull($petType, 'Pet type should exist from fixtures');
 
-        $this->client->request('GET', '/pet/api/breeds/' . $petType->getId());
+        $this->client->request('GET', '/pet/api/breeds/'.$petType->getId());
 
         $this->assertResponseIsSuccessful();
         $this->assertResponseHeaderSame('content-type', 'application/json');
@@ -175,7 +174,7 @@ class PetControllerTest extends WebTestCase
             $this->entityManager->flush();
         }
 
-        $this->client->request('GET', '/pet/api/breed-danger/' . $dangerousBreed->getId());
+        $this->client->request('GET', '/pet/api/breed-danger/'.$dangerousBreed->getId());
 
         $this->assertResponseIsSuccessful();
         $this->assertResponseHeaderSame('content-type', 'application/json');
@@ -191,7 +190,7 @@ class PetControllerTest extends WebTestCase
         // Submit form with empty data
         $this->client->submitForm('Next', [
             'name' => '',
-            'type_id' => ''
+            'type_id' => '',
         ]);
 
         // Should stay on step 1 with validation errors

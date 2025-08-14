@@ -2,8 +2,8 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\PetType;
 use App\Entity\Breed;
+use App\Entity\PetType;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -37,11 +37,11 @@ class PetTypeFixtures extends Fixture
             ['name' => 'Siberian Husky', 'dangerous' => false],
             ['name' => 'Boxer', 'dangerous' => false],
             ['name' => 'Border Collie', 'dangerous' => false],
-            
+
             // Dangerous breeds (as specified in requirements)
             ['name' => 'Pitbull', 'dangerous' => true],
             ['name' => 'Mastiff', 'dangerous' => true],
-            
+
             // Additional dangerous breeds for completeness
             ['name' => 'American Staffordshire Terrier', 'dangerous' => true],
             ['name' => 'Doberman Pinscher', 'dangerous' => true],

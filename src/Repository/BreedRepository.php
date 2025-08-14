@@ -18,7 +18,7 @@ class BreedRepository extends ServiceEntityRepository
     }
 
     /**
-     * Find breeds by pet type, ordered by name
+     * Find breeds by pet type, ordered by name.
      */
     public function findByPetType(PetType $petType): array
     {
@@ -31,7 +31,7 @@ class BreedRepository extends ServiceEntityRepository
     }
 
     /**
-     * Find dangerous breeds by pet type
+     * Find dangerous breeds by pet type.
      */
     public function findDangerousByPetType(PetType $petType): array
     {
@@ -46,7 +46,7 @@ class BreedRepository extends ServiceEntityRepository
     }
 
     /**
-     * Find breed by name and pet type (case insensitive)
+     * Find breed by name and pet type (case insensitive).
      */
     public function findByNameAndPetType(string $name, PetType $petType): ?Breed
     {

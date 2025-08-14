@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PetController extends AbstractController
 {
     public function __construct(
-        private PetService $petService
+        private PetService $petService,
     ) {
     }
 
@@ -45,6 +45,7 @@ class PetController extends AbstractController
             // Validate required fields
             if (empty($name) || empty($typeId)) {
                 $this->addFlash('error', 'Please fill in all required fields.');
+
                 return $this->render('pet/register_step1.html.twig', [
                     'petTypes' => $petTypes,
                     'petData' => $petData,
@@ -82,14 +83,14 @@ class PetController extends AbstractController
             $customBreedName = $request->request->get('custom_breed_name');
 
             // Store step 2 data in session based on breed option
-            if ($breedOption === 'know_breed' && $breedId) {
+            if ('know_breed' === $breedOption && $breedId) {
                 $petData['breed_id'] = $breedId;
                 $petData['custom_breed_option'] = null;
                 $petData['custom_breed_name'] = null;
             } else {
                 $petData['breed_id'] = null;
                 $petData['custom_breed_option'] = $breedOption;
-                $petData['custom_breed_name'] = ($breedOption === 'custom') ? $customBreedName : null;
+                $petData['custom_breed_name'] = ('custom' === $breedOption) ? $customBreedName : null;
             }
 
             $session->set('pet_registration', $petData);
@@ -125,6 +126,7 @@ class PetController extends AbstractController
             // Validate required fields
             if (empty($sex)) {
                 $this->addFlash('error', 'Please fill in all required fields.');
+
                 return $this->render('pet/register_step3.html.twig', [
                     'petData' => $petData,
                     'ageChoices' => $ageChoices,
@@ -150,7 +152,7 @@ class PetController extends AbstractController
 
                 return $this->redirectToRoute('pet_summary', ['id' => $pet->getId()]);
             } catch (\Exception $e) {
-                $this->addFlash('error', 'An error occurred while saving the pet: ' . $e->getMessage());
+                $this->addFlash('error', 'An error occurred while saving the pet: '.$e->getMessage());
             }
         }
 
@@ -165,7 +167,7 @@ class PetController extends AbstractController
     public function summary(int $id): Response
     {
         $pet = $this->petService->findPet($id);
-        
+
         if (!$pet) {
             throw $this->createNotFoundException('Pet not found');
         }
@@ -179,7 +181,7 @@ class PetController extends AbstractController
     public function getBreedsByType(int $petTypeId): JsonResponse
     {
         $breeds = $this->petService->getBreedsByPetTypeId($petTypeId);
-        
+
         $breedData = [];
         foreach ($breeds as $breed) {
             $breedData[] = [
@@ -196,7 +198,7 @@ class PetController extends AbstractController
     public function getBreedDanger(int $breedId): JsonResponse
     {
         $isDangerous = $this->petService->isBreedDangerous($breedId);
-        
+
         return new JsonResponse(['isDangerous' => $isDangerous]);
     }
 

@@ -17,7 +17,7 @@ class PetTypeRepository extends ServiceEntityRepository
     }
 
     /**
-     * Find all pet types ordered by name
+     * Find all pet types ordered by name.
      */
     public function findAllOrdered(): array
     {
@@ -28,7 +28,7 @@ class PetTypeRepository extends ServiceEntityRepository
     }
 
     /**
-     * Find pet type by name (case insensitive)
+     * Find pet type by name (case insensitive).
      */
     public function findByName(string $name): ?PetType
     {

@@ -53,6 +53,7 @@ class Breed
     public function setName(string $name): static
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -64,6 +65,7 @@ class Breed
     public function setIsDangerous(bool $isDangerous): static
     {
         $this->isDangerous = $isDangerous;
+
         return $this;
     }
 
@@ -75,6 +77,7 @@ class Breed
     public function setDescription(?string $description): static
     {
         $this->description = $description;
+
         return $this;
     }
 
@@ -86,6 +89,7 @@ class Breed
     public function setPetType(?PetType $petType): static
     {
         $this->petType = $petType;
+
         return $this;
     }
 
@@ -103,6 +107,7 @@ class Breed
             $this->pets->add($pet);
             $pet->setBreed($this);
         }
+
         return $this;
     }
 
@@ -113,6 +118,7 @@ class Breed
                 $pet->setBreed(null);
             }
         }
+
         return $this;
     }
 

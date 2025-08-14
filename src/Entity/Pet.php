@@ -71,6 +71,7 @@ class Pet
     public function setName(string $name): static
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -82,6 +83,7 @@ class Pet
     public function setType(?PetType $type): static
     {
         $this->type = $type;
+
         return $this;
     }
 
@@ -93,12 +95,12 @@ class Pet
     public function setBreed(?Breed $breed): static
     {
         $this->breed = $breed;
-        
+
         // Automatically set dangerous animal flag based on breed
         if ($breed && $breed->isDangerous()) {
             $this->isDangerousAnimal = true;
         }
-        
+
         return $this;
     }
 
@@ -110,12 +112,12 @@ class Pet
     public function setDateOfBirth(?\DateTimeInterface $dateOfBirth): static
     {
         $this->dateOfBirth = $dateOfBirth;
-        
+
         // Clear approximate age if date of birth is set
         if ($dateOfBirth) {
             $this->approximateAge = null;
         }
-        
+
         return $this;
     }
 
@@ -127,12 +129,12 @@ class Pet
     public function setApproximateAge(?int $approximateAge): static
     {
         $this->approximateAge = $approximateAge;
-        
+
         // Clear date of birth if approximate age is set
-        if ($approximateAge !== null) {
+        if (null !== $approximateAge) {
             $this->dateOfBirth = null;
         }
-        
+
         return $this;
     }
 
@@ -144,6 +146,7 @@ class Pet
     public function setSex(string $sex): static
     {
         $this->sex = $sex;
+
         return $this;
     }
 
@@ -155,6 +158,7 @@ class Pet
     public function setIsDangerousAnimal(bool $isDangerousAnimal): static
     {
         $this->isDangerousAnimal = $isDangerousAnimal;
+
         return $this;
     }
 
@@ -166,6 +170,7 @@ class Pet
     public function setCustomBreed(?string $customBreed): static
     {
         $this->customBreed = $customBreed;
+
         return $this;
     }
 
@@ -177,31 +182,33 @@ class Pet
     public function setCreatedAt(\DateTimeInterface $createdAt): static
     {
         $this->createdAt = $createdAt;
+
         return $this;
     }
 
     /**
-     * Calculate age based on date of birth or return approximate age
+     * Calculate age based on date of birth or return approximate age.
      */
     public function getAge(): ?int
     {
         if ($this->dateOfBirth) {
             $now = new \DateTime();
+
             return $now->diff($this->dateOfBirth)->y;
         }
-        
+
         return $this->approximateAge;
     }
 
     /**
-     * Get the display name for the breed (custom or from breed entity)
+     * Get the display name for the breed (custom or from breed entity).
      */
     public function getBreedName(): ?string
     {
         if ($this->customBreed) {
             return $this->customBreed;
         }
-        
+
         return $this->breed?->getName();
     }
 

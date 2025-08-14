@@ -2,16 +2,17 @@
 
 namespace App\Tests\Service;
 
+use App\Entity\Breed;
 use App\Entity\Pet;
 use App\Entity\PetType;
-use App\Entity\Breed;
-use App\Service\PetService;
+use App\Repository\BreedRepository;
 use App\Repository\PetRepository;
 use App\Repository\PetTypeRepository;
-use App\Repository\BreedRepository;
+use App\Service\PetService;
 use Doctrine\ORM\EntityManagerInterface;
-use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class PetServiceTest extends TestCase
 {
@@ -20,6 +21,7 @@ class PetServiceTest extends TestCase
     private MockObject $petRepository;
     private MockObject $petTypeRepository;
     private MockObject $breedRepository;
+    private MockObject $validator;
 
     protected function setUp(): void
     {
@@ -27,12 +29,14 @@ class PetServiceTest extends TestCase
         $this->petRepository = $this->createMock(PetRepository::class);
         $this->petTypeRepository = $this->createMock(PetTypeRepository::class);
         $this->breedRepository = $this->createMock(BreedRepository::class);
+        $this->validator = $this->createMock(ValidatorInterface::class);
 
         $this->petService = new PetService(
             $this->entityManager,
             $this->petRepository,
             $this->petTypeRepository,
-            $this->breedRepository
+            $this->breedRepository,
+            $this->validator
         );
     }
 
@@ -42,7 +46,7 @@ class PetServiceTest extends TestCase
             'name' => 'Buddy',
             'type_id' => 1,
             'sex' => Pet::SEX_MALE,
-            'approximate_age' => 3
+            'approximate_age' => 3,
         ];
 
         $petType = new PetType();
@@ -79,7 +83,7 @@ class PetServiceTest extends TestCase
             'type_id' => 1,
             'breed_id' => 1,
             'sex' => Pet::SEX_MALE,
-            'approximate_age' => 2
+            'approximate_age' => 2,
         ];
 
         $petType = new PetType();
@@ -125,7 +129,7 @@ class PetServiceTest extends TestCase
             'breed_id' => 'cant_find',
             'custom_breed_option' => 'mix',
             'sex' => Pet::SEX_FEMALE,
-            'approximate_age' => 1
+            'approximate_age' => 1,
         ];
 
         $petType = new PetType();
@@ -159,7 +163,7 @@ class PetServiceTest extends TestCase
             'type_id' => 1,
             'sex' => Pet::SEX_MALE,
             'knows_birth_date' => 'yes',
-            'date_of_birth' => '2020-05-15'
+            'date_of_birth' => '2020-05-15',
         ];
 
         $petType = new PetType();

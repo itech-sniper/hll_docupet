@@ -6,9 +6,9 @@ use Exception;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 /**
- * Exception thrown when pet validation fails
+ * Exception thrown when pet validation fails.
  */
-class PetValidationException extends Exception
+class PetValidationException extends \Exception
 {
     private ConstraintViolationListInterface $violations;
 
@@ -16,7 +16,7 @@ class PetValidationException extends Exception
         ConstraintViolationListInterface $violations,
         string $message = 'Pet validation failed',
         int $code = 0,
-        Exception $previous = null
+        ?\Exception $previous = null,
     ) {
         $this->violations = $violations;
         parent::__construct($message, $code, $previous);
@@ -33,6 +33,7 @@ class PetValidationException extends Exception
         foreach ($this->violations as $violation) {
             $messages[] = $violation->getMessage();
         }
+
         return $messages;
     }
 

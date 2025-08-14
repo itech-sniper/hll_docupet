@@ -17,7 +17,7 @@ class PetRepository extends ServiceEntityRepository
     }
 
     /**
-     * Find all pets ordered by creation date (newest first)
+     * Find all pets ordered by creation date (newest first).
      */
     public function findAllOrdered(): array
     {
@@ -31,7 +31,7 @@ class PetRepository extends ServiceEntityRepository
     }
 
     /**
-     * Find dangerous pets
+     * Find dangerous pets.
      */
     public function findDangerous(): array
     {
@@ -47,7 +47,7 @@ class PetRepository extends ServiceEntityRepository
     }
 
     /**
-     * Find pets by type
+     * Find pets by type.
      */
     public function findByType(string $typeName): array
     {

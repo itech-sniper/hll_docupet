@@ -50,6 +50,7 @@ class PetType
     public function setName(string $name): static
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -61,6 +62,7 @@ class PetType
     public function setDescription(?string $description): static
     {
         $this->description = $description;
+
         return $this;
     }
 
@@ -78,6 +80,7 @@ class PetType
             $this->breeds->add($breed);
             $breed->setPetType($this);
         }
+
         return $this;
     }
 
@@ -88,6 +91,7 @@ class PetType
                 $breed->setPetType(null);
             }
         }
+
         return $this;
     }
 
@@ -105,6 +109,7 @@ class PetType
             $this->pets->add($pet);
             $pet->setType($this);
         }
+
         return $this;
     }
 
@@ -115,6 +120,7 @@ class PetType
                 $pet->setType(null);
             }
         }
+
         return $this;
     }
 

@@ -2,15 +2,15 @@
 
 namespace App\Service;
 
+use App\Entity\Breed;
 use App\Entity\Pet;
 use App\Entity\PetType;
-use App\Entity\Breed;
-use App\Repository\PetRepository;
-use App\Repository\PetTypeRepository;
-use App\Repository\BreedRepository;
 use App\Exception\BreedNotFoundException;
 use App\Exception\PetTypeNotFoundException;
 use App\Exception\PetValidationException;
+use App\Repository\BreedRepository;
+use App\Repository\PetRepository;
+use App\Repository\PetTypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -21,26 +21,26 @@ class PetService
         private PetRepository $petRepository,
         private PetTypeRepository $petTypeRepository,
         private BreedRepository $breedRepository,
-        private ValidatorInterface $validator
+        private ValidatorInterface $validator,
     ) {
     }
 
     /**
-     * Create a new pet
+     * Create a new pet.
      */
     public function createPet(array $data): Pet
     {
         $pet = new Pet();
         $this->updatePetFromData($pet, $data);
-        
+
         $this->entityManager->persist($pet);
         $this->entityManager->flush();
-        
+
         return $pet;
     }
 
     /**
-     * Update pet from form data
+     * Update pet from form data.
      */
     public function updatePetFromData(Pet $pet, array $data): void
     {
@@ -56,19 +56,19 @@ class PetService
         }
 
         // Handle breed selection
-        if (isset($data['breed_id']) && $data['breed_id'] && $data['breed_id'] !== 'cant_find') {
+        if (isset($data['breed_id']) && $data['breed_id'] && 'cant_find' !== $data['breed_id']) {
             $breed = $this->breedRepository->find($data['breed_id']);
             if ($breed) {
                 $pet->setBreed($breed);
                 $pet->setCustomBreed(null); // Clear custom breed if selecting from list
             }
-        } elseif (isset($data['breed_id']) && $data['breed_id'] === 'cant_find') {
+        } elseif (isset($data['breed_id']) && 'cant_find' === $data['breed_id']) {
             // Handle "Can't find it?" option
             $pet->setBreed(null);
             if (isset($data['custom_breed_option'])) {
-                if ($data['custom_breed_option'] === 'dont_know') {
+                if ('dont_know' === $data['custom_breed_option']) {
                     $pet->setCustomBreed("I don't know");
-                } elseif ($data['custom_breed_option'] === 'mix') {
+                } elseif ('mix' === $data['custom_breed_option']) {
                     $pet->setCustomBreed("It's a mix");
                 }
             }
@@ -79,7 +79,7 @@ class PetService
         }
 
         // Handle age input
-        if (isset($data['knows_birth_date']) && $data['knows_birth_date'] === 'yes') {
+        if (isset($data['knows_birth_date']) && 'yes' === $data['knows_birth_date']) {
             if (isset($data['date_of_birth'])) {
                 $dateOfBirth = \DateTime::createFromFormat('Y-m-d', $data['date_of_birth']);
                 if ($dateOfBirth) {
@@ -95,21 +95,21 @@ class PetService
     }
 
     /**
-     * Update dangerous animal flag based on breed
+     * Update dangerous animal flag based on breed.
      */
     private function updateDangerousAnimalFlag(Pet $pet): void
     {
         $isDangerous = false;
-        
+
         if ($pet->getBreed() && $pet->getBreed()->isDangerous()) {
             $isDangerous = true;
         }
-        
+
         $pet->setIsDangerousAnimal($isDangerous);
     }
 
     /**
-     * Get all pet types
+     * Get all pet types.
      */
     public function getAllPetTypes(): array
     {
@@ -117,7 +117,7 @@ class PetService
     }
 
     /**
-     * Get breeds by pet type
+     * Get breeds by pet type.
      */
     public function getBreedsByPetType(PetType $petType): array
     {
@@ -125,7 +125,7 @@ class PetService
     }
 
     /**
-     * Get breeds by pet type ID
+     * Get breeds by pet type ID.
      */
     public function getBreedsByPetTypeId(int $petTypeId): array
     {
@@ -133,12 +133,12 @@ class PetService
         if (!$petType) {
             return [];
         }
-        
+
         return $this->getBreedsByPetType($petType);
     }
 
     /**
-     * Get all pets
+     * Get all pets.
      */
     public function getAllPets(): array
     {
@@ -146,7 +146,7 @@ class PetService
     }
 
     /**
-     * Find pet by ID
+     * Find pet by ID.
      */
     public function findPet(int $id): ?Pet
     {
@@ -154,28 +154,30 @@ class PetService
     }
 
     /**
-     * Check if a breed is dangerous
+     * Check if a breed is dangerous.
      */
     public function isBreedDangerous(int $breedId): bool
     {
         $breed = $this->breedRepository->find($breedId);
+
         return $breed ? $breed->isDangerous() : false;
     }
 
     /**
-     * Get age choices for approximate age dropdown
+     * Get age choices for approximate age dropdown.
      */
     public function getAgeChoices(): array
     {
         $choices = [];
-        for ($i = 1; $i <= 20; $i++) {
+        for ($i = 1; $i <= 20; ++$i) {
             $choices[$i] = $i;
         }
+
         return $choices;
     }
 
     /**
-     * Get pet type by ID with exception handling
+     * Get pet type by ID with exception handling.
      */
     public function getPetTypeById(int $id): PetType
     {
@@ -183,11 +185,12 @@ class PetService
         if (!$petType) {
             throw PetTypeNotFoundException::forId($id);
         }
+
         return $petType;
     }
 
     /**
-     * Get breed by ID with exception handling
+     * Get breed by ID with exception handling.
      */
     public function getBreedById(int $id): Breed
     {
@@ -195,11 +198,12 @@ class PetService
         if (!$breed) {
             throw BreedNotFoundException::forId($id);
         }
+
         return $breed;
     }
 
     /**
-     * Validate pet data
+     * Validate pet data.
      */
     public function validatePet(Pet $pet): void
     {
@@ -210,7 +214,7 @@ class PetService
     }
 
     /**
-     * Get pet by ID with exception handling
+     * Get pet by ID with exception handling.
      */
     public function getPetById(int $id): Pet
     {
@@ -218,6 +222,7 @@ class PetService
         if (!$pet) {
             throw new \InvalidArgumentException(sprintf('Pet with ID %d not found', $id));
         }
+
         return $pet;
     }
 }

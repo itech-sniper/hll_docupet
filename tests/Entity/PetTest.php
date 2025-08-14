@@ -2,9 +2,9 @@
 
 namespace App\Tests\Entity;
 
+use App\Entity\Breed;
 use App\Entity\Pet;
 use App\Entity\PetType;
-use App\Entity\Breed;
 use PHPUnit\Framework\TestCase;
 
 class PetTest extends TestCase

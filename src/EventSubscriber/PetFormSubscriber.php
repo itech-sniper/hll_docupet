@@ -2,15 +2,14 @@
 
 namespace App\EventSubscriber;
 
+use App\Entity\Pet;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use App\Entity\Pet;
-use App\Exception\PetValidationException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
- * Event subscriber for pet form handling and validation
+ * Event subscriber for pet form handling and validation.
  */
 class PetFormSubscriber implements EventSubscriberInterface
 {
@@ -65,9 +64,9 @@ class PetFormSubscriber implements EventSubscriberInterface
 
             // Handle birth date logic
             if (isset($data['knows_birth_date'])) {
-                if ($data['knows_birth_date'] === 'no') {
+                if ('no' === $data['knows_birth_date']) {
                     $data['date_of_birth'] = null;
-                    // Keep approximate_age
+                // Keep approximate_age
                 } else {
                     $data['approximate_age'] = null;
                     // Keep date_of_birth
@@ -86,7 +85,7 @@ class PetFormSubscriber implements EventSubscriberInterface
         // Additional validation after form submission
         if ($pet instanceof Pet && $form->isSubmitted()) {
             $violations = $this->validator->validate($pet);
-            
+
             if (count($violations) > 0) {
                 // Add violations to form
                 foreach ($violations as $violation) {

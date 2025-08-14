@@ -5,11 +5,11 @@ namespace App\Exception;
 use Exception;
 
 /**
- * Exception thrown when a requested pet type is not found
+ * Exception thrown when a requested pet type is not found.
  */
-class PetTypeNotFoundException extends Exception
+class PetTypeNotFoundException extends \Exception
 {
-    public function __construct(int $petTypeId, string $message = null, int $code = 0, Exception $previous = null)
+    public function __construct(int $petTypeId, ?string $message = null, int $code = 0, ?\Exception $previous = null)
     {
         $message = $message ?: sprintf('Pet type with ID %d not found', $petTypeId);
         parent::__construct($message, $code, $previous);

@@ -5,11 +5,11 @@ namespace App\Exception;
 use Exception;
 
 /**
- * Exception thrown when a requested breed is not found
+ * Exception thrown when a requested breed is not found.
  */
-class BreedNotFoundException extends Exception
+class BreedNotFoundException extends \Exception
 {
-    public function __construct(int $breedId, string $message = null, int $code = 0, Exception $previous = null)
+    public function __construct(int $breedId, ?string $message = null, int $code = 0, ?\Exception $previous = null)
     {
         $message = $message ?: sprintf('Breed with ID %d not found', $breedId);
         parent::__construct($message, $code, $previous);
