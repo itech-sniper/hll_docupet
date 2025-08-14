@@ -21,7 +21,6 @@ class PetController extends AbstractController
     #[Route('/register', name: 'pet_register')]
     public function register(Request $request): Response
     {
-        // Clear any existing session data and start fresh
         $session = $request->getSession();
         $session->remove('pet_registration');
         $session->set('pet_registration', []);
@@ -35,14 +34,12 @@ class PetController extends AbstractController
         $session = $request->getSession();
         $petData = $session->get('pet_registration', []);
 
-        // Get pet types for the dropdown
         $petTypes = $this->petService->getAllPetTypes();
 
         if ($request->isMethod('POST')) {
             $name = $request->request->get('name');
             $typeId = $request->request->get('type_id');
 
-            // Validate required fields
             if (empty($name) || empty($typeId)) {
                 $this->addFlash('error', 'Please fill in all required fields.');
 
@@ -52,7 +49,6 @@ class PetController extends AbstractController
                 ]);
             }
 
-            // Store step 1 data in session
             $petData['name'] = $name;
             $petData['type_id'] = $typeId;
             $session->set('pet_registration', $petData);
@@ -106,10 +102,9 @@ class PetController extends AbstractController
     #[Route('/register/step2-test', name: 'pet_register_step2_test', methods: ['GET'])]
     public function registerStep2Test(): Response
     {
-        // Test step 2 with mock data
         $petData = [
             'name' => 'Test Pet',
-            'type_id' => 7, // Dog type ID
+            'type_id' => 7,
         ];
 
         return $this->render('pet/register_step2.html.twig', [
@@ -120,7 +115,6 @@ class PetController extends AbstractController
     #[Route('/register/step3-test', name: 'pet_register_step3_test', methods: ['GET'])]
     public function registerStep3Test(): Response
     {
-        // Test step 3 with mock data
         $petData = [
             'name' => 'Test Pet',
             'type_id' => 7,
@@ -144,7 +138,6 @@ class PetController extends AbstractController
         $session = $request->getSession();
         $petData = $session->get('pet_registration', []);
 
-        // Redirect to step 1 if no data
         if (empty($petData['name']) || empty($petData['type_id'])) {
             return $this->redirectToRoute('pet_register_step1');
         }
@@ -183,7 +176,6 @@ class PetController extends AbstractController
             try {
                 $pet = $this->petService->createPet($completeData);
 
-                // Clear session data
                 $session->remove('pet_registration');
 
                 $this->addFlash('success', 'Pet registered successfully!');

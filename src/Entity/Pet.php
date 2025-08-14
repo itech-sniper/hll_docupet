@@ -96,7 +96,6 @@ class Pet
     {
         $this->breed = $breed;
 
-        // Automatically set dangerous animal flag based on breed
         if ($breed && $breed->isDangerous()) {
             $this->isDangerousAnimal = true;
         }
@@ -113,7 +112,6 @@ class Pet
     {
         $this->dateOfBirth = $dateOfBirth;
 
-        // Clear approximate age if date of birth is set
         if ($dateOfBirth) {
             $this->approximateAge = null;
         }
@@ -130,7 +128,6 @@ class Pet
     {
         $this->approximateAge = $approximateAge;
 
-        // Clear date of birth if approximate age is set
         if (null !== $approximateAge) {
             $this->dateOfBirth = null;
         }

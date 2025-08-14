@@ -48,10 +48,8 @@ class PetControllerTest extends WebTestCase
 
     public function testRegisterStep2PageLoads(): void
     {
-        // First, complete step 1 to get to step 2
         $this->client->request('GET', '/pet/register/step1');
 
-        // Get a pet type from fixtures
         $petType = $this->entityManager->getRepository(PetType::class)->findOneBy([]);
         $this->assertNotNull($petType, 'Pet type should exist from fixtures');
 
@@ -62,7 +60,6 @@ class PetControllerTest extends WebTestCase
 
         $this->assertResponseRedirects('/pet/register/step2');
 
-        // Now test step 2
         $this->client->followRedirect();
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h1', 'Pet Registration');
@@ -71,7 +68,6 @@ class PetControllerTest extends WebTestCase
 
     public function testRegisterStep3PageLoads(): void
     {
-        // Complete steps 1 and 2 to get to step 3
         $this->client->request('GET', '/pet/register/step1');
 
         $petType = $this->entityManager->getRepository(PetType::class)->findOneBy([]);
@@ -87,7 +83,6 @@ class PetControllerTest extends WebTestCase
 
         $this->assertResponseRedirects('/pet/register/step3');
 
-        // Now test step 3
         $this->client->followRedirect();
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h1', 'Pet Registration');
@@ -106,7 +101,6 @@ class PetControllerTest extends WebTestCase
 
     public function testCompleteRegistrationFlow(): void
     {
-        // Step 1: Basic information
         $this->client->request('GET', '/pet/register/step1');
 
         $petType = $this->entityManager->getRepository(PetType::class)->findOneBy([]);
@@ -115,25 +109,21 @@ class PetControllerTest extends WebTestCase
             'type_id' => $petType->getId(),
         ]);
 
-        // Step 2: Breed information
         $this->client->followRedirect();
         $this->client->submitForm('Next', [
             'breed_option' => 'dont_know',
         ]);
 
-        // Step 3: Additional details
         $this->client->followRedirect();
         $this->client->submitForm('Submit', [
             'sex' => 'female',
             'knows_birth_date' => 'no',
         ]);
 
-        // Should redirect to success page
         $this->assertResponseRedirects();
         $this->client->followRedirect();
         $this->assertResponseIsSuccessful();
 
-        // Verify pet was created in database
         $pet = $this->entityManager->getRepository(\App\Entity\Pet::class)->findOneBy(['name' => 'Fluffy']);
         $this->assertNotNull($pet);
         $this->assertEquals('Fluffy', $pet->getName());
@@ -143,7 +133,6 @@ class PetControllerTest extends WebTestCase
 
     public function testApiBreedsByTypeReturnsJson(): void
     {
-        // Use existing pet type from fixtures
         $petType = $this->entityManager->getRepository(PetType::class)->findOneBy([]);
         $this->assertNotNull($petType, 'Pet type should exist from fixtures');
 
@@ -154,17 +143,14 @@ class PetControllerTest extends WebTestCase
 
         $response = json_decode($this->client->getResponse()->getContent(), true);
         $this->assertIsArray($response);
-        // Should have breeds from fixtures
         $this->assertGreaterThanOrEqual(0, count($response));
     }
 
     public function testApiBreedDangerReturnsCorrectStatus(): void
     {
-        // Find a dangerous breed from fixtures or create one
         $dangerousBreed = $this->entityManager->getRepository(Breed::class)->findOneBy(['isDangerous' => true]);
 
         if (!$dangerousBreed) {
-            // Create test data if no dangerous breed exists
             $petType = $this->entityManager->getRepository(PetType::class)->findOneBy([]);
             $dangerousBreed = new Breed();
             $dangerousBreed->setName('Test Dangerous Breed');
@@ -187,17 +173,13 @@ class PetControllerTest extends WebTestCase
     {
         $this->client->request('GET', '/pet/register/step1');
 
-        // Submit form with empty data
         $this->client->submitForm('Next', [
             'name' => '',
             'type_id' => '',
         ]);
 
-        // Should stay on step 1 with validation errors
         $this->assertResponseIsSuccessful();
-        // Check that we're still on step 1 (not redirected)
         $this->assertSelectorTextContains('h3', 'Step 1: Pet Information');
-        // The form should still be present for retry
         $this->assertSelectorExists('form');
         $this->assertSelectorExists('input[name="name"]');
     }
@@ -206,7 +188,6 @@ class PetControllerTest extends WebTestCase
     {
         parent::tearDown();
 
-        // Clean up test data
         $this->entityManager->close();
         $this->entityManager = null;
     }

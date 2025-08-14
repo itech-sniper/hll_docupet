@@ -55,15 +55,14 @@ class PetService
             }
         }
 
-        // Handle breed selection
         if (isset($data['breed_id']) && $data['breed_id'] && 'cant_find' !== $data['breed_id']) {
             $breed = $this->breedRepository->find($data['breed_id']);
             if ($breed) {
                 $pet->setBreed($breed);
-                $pet->setCustomBreed(null); // Clear custom breed if selecting from list
+                $pet->setCustomBreed(null);
             }
         } elseif (isset($data['breed_id']) && 'cant_find' === $data['breed_id']) {
-            // Handle "Can't find it?" option
+
             $pet->setBreed(null);
             if (isset($data['custom_breed_option'])) {
                 if ('dont_know' === $data['custom_breed_option']) {
@@ -78,7 +77,7 @@ class PetService
             $pet->setSex($data['sex']);
         }
 
-        // Handle age input
+
         if (isset($data['knows_birth_date']) && 'yes' === $data['knows_birth_date']) {
             if (isset($data['date_of_birth'])) {
                 $dateOfBirth = \DateTime::createFromFormat('Y-m-d', $data['date_of_birth']);
@@ -90,7 +89,7 @@ class PetService
             $pet->setApproximateAge((int) $data['approximate_age']);
         }
 
-        // Set dangerous animal flag based on breed
+
         $this->updateDangerousAnimalFlag($pet);
     }
 

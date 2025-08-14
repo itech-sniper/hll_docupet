@@ -1,7 +1,6 @@
 version: '3.3'
 
 services:
-  # PHP Application with Apache
   app:
     build:
       context: .
@@ -19,7 +18,6 @@ services:
     networks:
       - app-network
 
-  # MySQL Database
   db:
     image: mysql:8.0
     container_name: hll_docupet_db
