@@ -261,6 +261,12 @@ document.addEventListener('DOMContentLoaded', function() {
         approximateAgeSection: !!approximateAgeSection
     });
 
+    // Check if all required elements exist
+    if (!knowsBirthYes || !knowsBirthNo || !dateOfBirthSection || !approximateAgeSection) {
+        console.error('Some required Step 3 elements are missing!');
+        return;
+    }
+
     // Handle birth date knowledge change
     function handleBirthDateChange() {
         console.log('Birth date change - Yes checked:', knowsBirthYes.checked, 'No checked:', knowsBirthNo.checked);
@@ -292,15 +298,32 @@ document.addEventListener('DOMContentLoaded', function() {
     knowsBirthNo.addEventListener('change', handleBirthDateChange);
 
     // Initialize form state based on existing values
-    console.log('Initializing Step 3 form state');
-    console.log('knows_birth_yes checked:', knowsBirthYes.checked);
-    console.log('knows_birth_no checked:', knowsBirthNo.checked);
+    function initializeStep3FormState() {
+        console.log('Initializing Step 3 form state');
+        console.log('knows_birth_yes checked:', knowsBirthYes.checked);
+        console.log('knows_birth_no checked:', knowsBirthNo.checked);
 
-    // Trigger initial state based on existing selection
-    if (knowsBirthYes.checked || knowsBirthNo.checked) {
-        console.log('Found existing selection, triggering handleBirthDateChange');
-        handleBirthDateChange();
+        // Manually set the form state based on current radio button values
+        if (knowsBirthYes.checked) {
+            console.log('Yes is checked - showing date of birth section');
+            dateOfBirthSection.style.display = 'block';
+            approximateAgeSection.style.display = 'none';
+        } else if (knowsBirthNo.checked) {
+            console.log('No is checked - showing approximate age section');
+            dateOfBirthSection.style.display = 'none';
+            approximateAgeSection.style.display = 'block';
+        } else {
+            console.log('Nothing checked - hiding both sections');
+            dateOfBirthSection.style.display = 'none';
+            approximateAgeSection.style.display = 'none';
+        }
     }
+
+    // Initialize immediately
+    initializeStep3FormState();
+
+    // Also initialize after a short delay
+    setTimeout(initializeStep3FormState, 100);
 
     // Form validation
     document.getElementById('finalForm').addEventListener('submit', function(e) {

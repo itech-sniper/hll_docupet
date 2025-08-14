@@ -260,6 +260,12 @@ document.addEventListener('DOMContentLoaded', function() {
         breedNameDisplay: !!breedNameDisplay
     });
 
+    // Check if all required elements exist
+    if (!breedOption || !breedSelection || !customBreedInput || !breedSelect || !dangerousBreedWarning || !breedNameDisplay) {
+        console.error('Some required elements are missing!');
+        return;
+    }
+
     // Handle breed option change
     breedOption.addEventListener('change', function() {
         const value = this.value;
@@ -355,21 +361,34 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Initialize form state based on existing values
-    console.log('Initializing form state. Current breed_option value:', breedOption.value);
+    function initializeFormState() {
+        console.log('Initializing form state. Current breed_option value:', breedOption.value);
 
-    // Always trigger change event to initialize the form properly
-    if (breedOption.value) {
-        console.log('Triggering change event for existing value:', breedOption.value);
-        breedOption.dispatchEvent(new Event('change'));
+        const currentValue = breedOption.value;
+        if (currentValue) {
+            console.log('Found existing breed option:', currentValue);
+
+            // Manually trigger the form state based on the current value
+            breedSelection.style.display = 'none';
+            customBreedInput.style.display = 'none';
+            dangerousBreedWarning.style.display = 'none';
+
+            if (currentValue === 'know_breed') {
+                console.log('Showing breed selection for know_breed');
+                breedSelection.style.display = 'block';
+                loadBreeds();
+            } else if (currentValue === 'custom') {
+                console.log('Showing custom breed input for custom');
+                customBreedInput.style.display = 'block';
+            }
+        }
     }
 
-    // Also check for any pre-selected breed and trigger danger check
-    setTimeout(function() {
-        if (breedSelect.value) {
-            console.log('Found pre-selected breed:', breedSelect.value);
-            checkBreedDanger();
-        }
-    }, 100);
+    // Initialize immediately
+    initializeFormState();
+
+    // Also initialize after a short delay to ensure everything is loaded
+    setTimeout(initializeFormState, 100);
 });
 </script>
 {% endblock %}
