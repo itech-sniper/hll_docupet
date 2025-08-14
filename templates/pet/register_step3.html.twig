@@ -89,7 +89,7 @@
                 </div>
 
                 <!-- Date of Birth (shown when "Yes" is selected) -->
-                <div id="date_of_birth_section" style="display: none;">
+                <div id="date_of_birth_section" class="hidden">
                     <label for="date_of_birth" class="block text-sm font-semibold text-gray-700 mb-2">
                         Date of Birth
                     </label>
@@ -97,7 +97,7 @@
                 </div>
 
                 <!-- Approximate Age (shown when "No" is selected) -->
-                <div id="approximate_age_section" style="display: none;">
+                <div id="approximate_age_section" class="hidden">
                     <label for="approximate_age" class="block text-sm font-semibold text-gray-700 mb-2">
                         Approximate Age (years) <span class="text-red-500">*</span>
                     </label>
@@ -243,6 +243,14 @@
     border: 1px solid #fca5a5;
     color: #dc2626;
 }
+
+.hidden {
+    display: none !important;
+}
+
+.visible {
+    display: block !important;
+}
 </style>
 
 <script>
@@ -273,24 +281,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (knowsBirthYes.checked) {
             console.log('Showing date of birth section');
-            dateOfBirthSection.style.display = 'block';
-            approximateAgeSection.style.display = 'none';
+            dateOfBirthSection.classList.remove('hidden');
+            dateOfBirthSection.classList.add('visible');
+            approximateAgeSection.classList.add('hidden');
+            approximateAgeSection.classList.remove('visible');
             const approximateAgeInput = document.getElementById('approximate_age');
             if (approximateAgeInput) {
                 approximateAgeInput.value = '';
             }
         } else if (knowsBirthNo.checked) {
             console.log('Showing approximate age section');
-            dateOfBirthSection.style.display = 'none';
-            approximateAgeSection.style.display = 'block';
+            dateOfBirthSection.classList.add('hidden');
+            dateOfBirthSection.classList.remove('visible');
+            approximateAgeSection.classList.remove('hidden');
+            approximateAgeSection.classList.add('visible');
             const dateOfBirthInput = document.getElementById('date_of_birth');
             if (dateOfBirthInput) {
                 dateOfBirthInput.value = '';
             }
         } else {
             console.log('Hiding both sections');
-            dateOfBirthSection.style.display = 'none';
-            approximateAgeSection.style.display = 'none';
+            dateOfBirthSection.classList.add('hidden');
+            dateOfBirthSection.classList.remove('visible');
+            approximateAgeSection.classList.add('hidden');
+            approximateAgeSection.classList.remove('visible');
         }
     }
 
@@ -303,19 +317,25 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('knows_birth_yes checked:', knowsBirthYes.checked);
         console.log('knows_birth_no checked:', knowsBirthNo.checked);
 
-        // Manually set the form state based on current radio button values
+        // Manually set the form state based on current radio button values using CSS classes
         if (knowsBirthYes.checked) {
             console.log('Yes is checked - showing date of birth section');
-            dateOfBirthSection.style.display = 'block';
-            approximateAgeSection.style.display = 'none';
+            dateOfBirthSection.classList.remove('hidden');
+            dateOfBirthSection.classList.add('visible');
+            approximateAgeSection.classList.add('hidden');
+            approximateAgeSection.classList.remove('visible');
         } else if (knowsBirthNo.checked) {
             console.log('No is checked - showing approximate age section');
-            dateOfBirthSection.style.display = 'none';
-            approximateAgeSection.style.display = 'block';
+            dateOfBirthSection.classList.add('hidden');
+            dateOfBirthSection.classList.remove('visible');
+            approximateAgeSection.classList.remove('hidden');
+            approximateAgeSection.classList.add('visible');
         } else {
             console.log('Nothing checked - hiding both sections');
-            dateOfBirthSection.style.display = 'none';
-            approximateAgeSection.style.display = 'none';
+            dateOfBirthSection.classList.add('hidden');
+            dateOfBirthSection.classList.remove('visible');
+            approximateAgeSection.classList.add('hidden');
+            approximateAgeSection.classList.remove('visible');
         }
     }
 
