@@ -254,15 +254,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Handle birth date knowledge change
     function handleBirthDateChange() {
+        console.log('Birth date change - Yes checked:', knowsBirthYes.checked, 'No checked:', knowsBirthNo.checked);
+
         if (knowsBirthYes.checked) {
+            console.log('Showing date of birth section');
             dateOfBirthSection.style.display = 'block';
             approximateAgeSection.style.display = 'none';
-            document.getElementById('approximate_age').value = '';
+            const approximateAgeInput = document.getElementById('approximate_age');
+            if (approximateAgeInput) {
+                approximateAgeInput.value = '';
+            }
         } else if (knowsBirthNo.checked) {
+            console.log('Showing approximate age section');
             dateOfBirthSection.style.display = 'none';
             approximateAgeSection.style.display = 'block';
-            document.getElementById('date_of_birth').value = '';
+            const dateOfBirthInput = document.getElementById('date_of_birth');
+            if (dateOfBirthInput) {
+                dateOfBirthInput.value = '';
+            }
         } else {
+            console.log('Hiding both sections');
             dateOfBirthSection.style.display = 'none';
             approximateAgeSection.style.display = 'none';
         }

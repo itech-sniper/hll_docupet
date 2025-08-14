@@ -252,28 +252,34 @@ document.addEventListener('DOMContentLoaded', function() {
     // Handle breed option change
     breedOption.addEventListener('change', function() {
         const value = this.value;
-        
+        console.log('Breed option changed to:', value);
+
         // Hide all conditional fields
         breedSelection.style.display = 'none';
         customBreedInput.style.display = 'none';
         dangerousBreedWarning.style.display = 'none';
-        
+
         // Clear values
         breedSelect.value = '';
-        document.getElementById('custom_breed_name').value = '';
-        
+        const customBreedNameInput = document.getElementById('custom_breed_name');
+        if (customBreedNameInput) {
+            customBreedNameInput.value = '';
+        }
+
         if (value === 'know_breed') {
+            console.log('Showing breed selection');
             breedSelection.style.display = 'block';
             loadBreeds();
         } else if (value === 'custom') {
+            console.log('Showing custom breed input');
             customBreedInput.style.display = 'block';
         }
     });
 
     // Load breeds based on pet type
     function loadBreeds() {
-        const petTypeId = {{ petData.type_id ?? 'null' }};
-        if (!petTypeId) {
+        const petTypeId = {{ petData.type_id|default('null') }};
+        if (!petTypeId || petTypeId === null) {
             console.error('No pet type ID found');
             return;
         }
