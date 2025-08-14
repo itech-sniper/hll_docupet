@@ -325,6 +325,18 @@ document.addEventListener('DOMContentLoaded', function() {
     // Also initialize after a short delay
     setTimeout(initializeStep3FormState, 100);
 
+    // Add a more aggressive initialization after page load
+    setTimeout(function() {
+        console.log('Final Step 3 initialization check...');
+        console.log('knows_birth_yes checked:', knowsBirthYes.checked);
+        console.log('knows_birth_no checked:', knowsBirthNo.checked);
+        console.log('date_of_birth_section display:', dateOfBirthSection.style.display);
+        console.log('approximate_age_section display:', approximateAgeSection.style.display);
+
+        // Force initialization one more time
+        initializeStep3FormState();
+    }, 500);
+
     // Form validation
     document.getElementById('finalForm').addEventListener('submit', function(e) {
         const sex = document.getElementById('sex').value;

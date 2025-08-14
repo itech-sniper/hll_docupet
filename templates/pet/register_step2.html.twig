@@ -389,6 +389,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Also initialize after a short delay to ensure everything is loaded
     setTimeout(initializeFormState, 100);
+
+    // Add a more aggressive initialization after page load
+    setTimeout(function() {
+        console.log('Final initialization check...');
+        console.log('breed_option value:', breedOption.value);
+        console.log('breed_selection display:', breedSelection.style.display);
+        console.log('custom_breed_input display:', customBreedInput.style.display);
+
+        // Force initialization one more time
+        initializeFormState();
+    }, 500);
 });
 </script>
 {% endblock %}
