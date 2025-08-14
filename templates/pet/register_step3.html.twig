@@ -88,7 +88,6 @@
                     </div>
                 </div>
 
-                <!-- Date of Birth (shown when "Yes" is selected) -->
                 <div id="date_of_birth_section" class="hidden">
                     <label for="date_of_birth" class="block text-sm font-semibold text-gray-700 mb-2">
                         Date of Birth
@@ -96,7 +95,6 @@
                     <input type="date" class="form-input text-lg py-3" id="date_of_birth" name="date_of_birth" value="{{ petData.date_of_birth ?? '' }}">
                 </div>
 
-                <!-- Approximate Age (shown when "No" is selected) -->
                 <div id="approximate_age_section" class="hidden">
                     <label for="approximate_age" class="block text-sm font-semibold text-gray-700 mb-2">
                         Approximate Age (years) <span class="text-red-500">*</span>
@@ -255,32 +253,18 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Step 3 JavaScript loaded');
-
     const knowsBirthYes = document.getElementById('knows_birth_yes');
     const knowsBirthNo = document.getElementById('knows_birth_no');
     const dateOfBirthSection = document.getElementById('date_of_birth_section');
     const approximateAgeSection = document.getElementById('approximate_age_section');
 
-    console.log('Elements found:', {
-        knowsBirthYes: !!knowsBirthYes,
-        knowsBirthNo: !!knowsBirthNo,
-        dateOfBirthSection: !!dateOfBirthSection,
-        approximateAgeSection: !!approximateAgeSection
-    });
-
-    // Check if all required elements exist
     if (!knowsBirthYes || !knowsBirthNo || !dateOfBirthSection || !approximateAgeSection) {
-        console.error('Some required Step 3 elements are missing!');
+        console.error('Required Step 3 elements missing');
         return;
     }
 
-    // Handle birth date knowledge change
     function handleBirthDateChange() {
-        console.log('Birth date change - Yes checked:', knowsBirthYes.checked, 'No checked:', knowsBirthNo.checked);
-
         if (knowsBirthYes.checked) {
-            console.log('Showing date of birth section');
             dateOfBirthSection.classList.remove('hidden');
             dateOfBirthSection.classList.add('visible');
             approximateAgeSection.classList.add('hidden');
@@ -290,7 +274,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 approximateAgeInput.value = '';
             }
         } else if (knowsBirthNo.checked) {
-            console.log('Showing approximate age section');
             dateOfBirthSection.classList.add('hidden');
             dateOfBirthSection.classList.remove('visible');
             approximateAgeSection.classList.remove('hidden');
@@ -300,7 +283,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 dateOfBirthInput.value = '';
             }
         } else {
-            console.log('Hiding both sections');
             dateOfBirthSection.classList.add('hidden');
             dateOfBirthSection.classList.remove('visible');
             approximateAgeSection.classList.add('hidden');
@@ -311,27 +293,18 @@ document.addEventListener('DOMContentLoaded', function() {
     knowsBirthYes.addEventListener('change', handleBirthDateChange);
     knowsBirthNo.addEventListener('change', handleBirthDateChange);
 
-    // Initialize form state based on existing values
     function initializeStep3FormState() {
-        console.log('Initializing Step 3 form state');
-        console.log('knows_birth_yes checked:', knowsBirthYes.checked);
-        console.log('knows_birth_no checked:', knowsBirthNo.checked);
-
-        // Manually set the form state based on current radio button values using CSS classes
         if (knowsBirthYes.checked) {
-            console.log('Yes is checked - showing date of birth section');
             dateOfBirthSection.classList.remove('hidden');
             dateOfBirthSection.classList.add('visible');
             approximateAgeSection.classList.add('hidden');
             approximateAgeSection.classList.remove('visible');
         } else if (knowsBirthNo.checked) {
-            console.log('No is checked - showing approximate age section');
             dateOfBirthSection.classList.add('hidden');
             dateOfBirthSection.classList.remove('visible');
             approximateAgeSection.classList.remove('hidden');
             approximateAgeSection.classList.add('visible');
         } else {
-            console.log('Nothing checked - hiding both sections');
             dateOfBirthSection.classList.add('hidden');
             dateOfBirthSection.classList.remove('visible');
             approximateAgeSection.classList.add('hidden');
@@ -339,29 +312,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Initialize immediately
     initializeStep3FormState();
-
-    // Also initialize after a short delay
     setTimeout(initializeStep3FormState, 100);
+    setTimeout(initializeStep3FormState, 500);
 
-    // Add a more aggressive initialization after page load
-    setTimeout(function() {
-        console.log('Final Step 3 initialization check...');
-        console.log('knows_birth_yes checked:', knowsBirthYes.checked);
-        console.log('knows_birth_no checked:', knowsBirthNo.checked);
-        console.log('date_of_birth_section display:', dateOfBirthSection.style.display);
-        console.log('approximate_age_section display:', approximateAgeSection.style.display);
-
-        // Force initialization one more time
-        initializeStep3FormState();
-    }, 500);
-
-    // Form validation
     document.getElementById('finalForm').addEventListener('submit', function(e) {
         const sex = document.getElementById('sex').value;
         const knowsBirthDate = document.querySelector('input[name="knows_birth_date"]:checked');
-        
+
         if (!sex) {
             e.preventDefault();
             alert('Please select a gender.');

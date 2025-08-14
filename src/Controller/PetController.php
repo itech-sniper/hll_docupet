@@ -72,7 +72,6 @@ class PetController extends AbstractController
         $session = $request->getSession();
         $petData = $session->get('pet_registration', []);
 
-        // Redirect to step 1 if no data
         if (empty($petData['name']) || empty($petData['type_id'])) {
             return $this->redirectToRoute('pet_register_step1');
         }
@@ -82,8 +81,7 @@ class PetController extends AbstractController
             $breedId = $request->request->get('breed_id');
             $customBreedName = $request->request->get('custom_breed_name');
 
-            // Store step 2 data in session
-            $petData['breed_option'] = $breedOption; // Always store the breed option
+            $petData['breed_option'] = $breedOption;
 
             if ('know_breed' === $breedOption && $breedId) {
                 $petData['breed_id'] = $breedId;
@@ -160,13 +158,10 @@ class PetController extends AbstractController
             $approximateAge = $request->request->get('approximate_age');
             $sex = $request->request->get('sex');
 
-            // Store step 3 data in session for form persistence
             $petData['knows_birth_date'] = $knowsBirthDate;
             $petData['date_of_birth'] = $dateOfBirth;
             $petData['approximate_age'] = $approximateAge;
             $petData['sex'] = $sex;
-
-            // Validate required fields
             if (empty($sex)) {
                 $this->addFlash('error', 'Please fill in all required fields.');
 
@@ -177,7 +172,7 @@ class PetController extends AbstractController
                 ]);
             }
 
-            // Prepare complete data for pet creation
+
             $completeData = array_merge($petData, [
                 'knows_birth_date' => $knowsBirthDate,
                 'date_of_birth' => $dateOfBirth,

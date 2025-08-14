@@ -71,7 +71,6 @@
                     </select>
                 </div>
 
-                <!-- Breed Selection (shown when "I know the breed" is selected) -->
                 <div id="breed_selection" class="hidden">
                     <label for="breed_id" class="block text-sm font-semibold text-gray-700 mb-2">
                         Breed <span class="text-red-500">*</span>
@@ -89,7 +88,6 @@
                     </div>
                 </div>
 
-                <!-- Custom Breed Name (shown when "Other" is selected) -->
                 <div id="custom_breed_input" class="hidden">
                     <label for="custom_breed_name" class="block text-sm font-semibold text-gray-700 mb-2">
                         Breed Name <span class="text-red-500">*</span>
@@ -250,8 +248,6 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Step 2 JavaScript loaded');
-
     const breedOption = document.getElementById('breed_option');
     const breedSelection = document.getElementById('breed_selection');
     const customBreedInput = document.getElementById('custom_breed_input');
@@ -259,27 +255,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const dangerousBreedWarning = document.getElementById('dangerous_breed_warning');
     const breedNameDisplay = document.getElementById('breed_name_display');
 
-    console.log('Elements found:', {
-        breedOption: !!breedOption,
-        breedSelection: !!breedSelection,
-        customBreedInput: !!customBreedInput,
-        breedSelect: !!breedSelect,
-        dangerousBreedWarning: !!dangerousBreedWarning,
-        breedNameDisplay: !!breedNameDisplay
-    });
-
-    // Check if all required elements exist
     if (!breedOption || !breedSelection || !customBreedInput || !breedSelect || !dangerousBreedWarning || !breedNameDisplay) {
-        console.error('Some required elements are missing!');
+        console.error('Required elements missing');
         return;
     }
 
-    // Handle breed option change
     breedOption.addEventListener('change', function() {
         const value = this.value;
-        console.log('Breed option changed to:', value);
 
-        // Hide all conditional fields using CSS classes
         breedSelection.classList.add('hidden');
         breedSelection.classList.remove('visible');
         customBreedInput.classList.add('hidden');
@@ -287,7 +270,6 @@ document.addEventListener('DOMContentLoaded', function() {
         dangerousBreedWarning.classList.add('hidden');
         dangerousBreedWarning.classList.remove('visible');
 
-        // Clear values
         breedSelect.value = '';
         const customBreedNameInput = document.getElementById('custom_breed_name');
         if (customBreedNameInput) {
@@ -295,43 +277,33 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         if (value === 'know_breed') {
-            console.log('Showing breed selection');
             breedSelection.classList.remove('hidden');
             breedSelection.classList.add('visible');
             loadBreeds();
         } else if (value === 'custom') {
-            console.log('Showing custom breed input');
             customBreedInput.classList.remove('hidden');
             customBreedInput.classList.add('visible');
         }
     });
 
-    // Load breeds based on pet type
     function loadBreeds() {
         const petTypeId = {{ petData.type_id|default('null') }};
-        console.log('Pet type ID:', petTypeId);
 
         if (!petTypeId || petTypeId === null) {
-            console.error('No pet type ID found - redirecting to step 1');
-            // Show error message and redirect
             alert('Please start from Step 1 to select your pet type first.');
             window.location.href = '/pet/register/step1';
             return;
         }
 
-        console.log('Loading breeds for pet type:', petTypeId);
         fetch(`/pet/api/breeds/${petTypeId}`)
             .then(response => {
-                console.log('API response status:', response.status);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 return response.json();
             })
             .then(breeds => {
-                console.log('Breeds loaded:', breeds);
                 const selectedBreedId = {{ petData.breed_id|default('null') }};
-                console.log('Selected breed ID from session:', selectedBreedId);
 
                 breedSelect.innerHTML = '<option value="">Select breed</option>';
                 breeds.forEach(breed => {
@@ -340,16 +312,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     option.textContent = breed.name;
                     option.dataset.dangerous = breed.isDangerous;
 
-                    // Select the breed if it matches the session data
                     if (selectedBreedId && breed.id == selectedBreedId) {
                         option.selected = true;
-                        console.log('Pre-selecting breed:', breed.name);
                     }
 
                     breedSelect.appendChild(option);
                 });
 
-                // Trigger danger check if a breed is pre-selected
                 if (selectedBreedId) {
                     checkBreedDanger();
                 }
@@ -360,7 +329,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
-    // Check if selected breed is dangerous
     breedSelect.addEventListener('change', checkBreedDanger);
 
     function checkBreedDanger() {
@@ -375,15 +343,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Initialize form state based on existing values
     function initializeFormState() {
-        console.log('Initializing form state. Current breed_option value:', breedOption.value);
-
         const currentValue = breedOption.value;
         if (currentValue) {
-            console.log('Found existing breed option:', currentValue);
-
-            // Manually trigger the form state based on the current value using CSS classes
             breedSelection.classList.add('hidden');
             breedSelection.classList.remove('visible');
             customBreedInput.classList.add('hidden');
@@ -392,34 +354,19 @@ document.addEventListener('DOMContentLoaded', function() {
             dangerousBreedWarning.classList.remove('visible');
 
             if (currentValue === 'know_breed') {
-                console.log('Showing breed selection for know_breed');
                 breedSelection.classList.remove('hidden');
                 breedSelection.classList.add('visible');
                 loadBreeds();
             } else if (currentValue === 'custom') {
-                console.log('Showing custom breed input for custom');
                 customBreedInput.classList.remove('hidden');
                 customBreedInput.classList.add('visible');
             }
         }
     }
 
-    // Initialize immediately
     initializeFormState();
-
-    // Also initialize after a short delay to ensure everything is loaded
     setTimeout(initializeFormState, 100);
-
-    // Add a more aggressive initialization after page load
-    setTimeout(function() {
-        console.log('Final initialization check...');
-        console.log('breed_option value:', breedOption.value);
-        console.log('breed_selection display:', breedSelection.style.display);
-        console.log('custom_breed_input display:', customBreedInput.style.display);
-
-        // Force initialization one more time
-        initializeFormState();
-    }, 500);
+    setTimeout(initializeFormState, 500);
 });
 </script>
 {% endblock %}
