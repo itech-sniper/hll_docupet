@@ -77,16 +77,16 @@ docker-compose exec app npm run build
 
 ### 6. Access the Application
 
-- **Main Application**: http://localhost:8000
-- **Database Admin (phpMyAdmin)**: http://localhost:8080
+- **Main Application**: http://localhost:8001
+- **Database**: localhost:3307
   - Username: `root`
-  - Password: `password`
+  - Password: `root`
 
 ## 📖 Usage Guide
 
 ### Registering a Pet
 
-1. Navigate to http://localhost:8000
+1. Navigate to http://localhost:8001
 2. Click "Register Your Pet"
 3. Fill out the registration form:
    - **Pet's Name**: Enter your pet's name
@@ -248,7 +248,7 @@ This project is proprietary software developed for HLL DocuPet.
 
 ### Common Issues
 
-**Port conflicts**: If ports 8000, 3306, or 8080 are in use:
+**Port conflicts**: If ports 8001 or 3307 are in use:
 ```bash
 # Stop the containers
 docker-compose down
