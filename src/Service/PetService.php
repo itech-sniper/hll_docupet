@@ -8,7 +8,11 @@ use App\Entity\Breed;
 use App\Repository\PetRepository;
 use App\Repository\PetTypeRepository;
 use App\Repository\BreedRepository;
+use App\Exception\BreedNotFoundException;
+use App\Exception\PetTypeNotFoundException;
+use App\Exception\PetValidationException;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class PetService
 {
@@ -16,7 +20,8 @@ class PetService
         private EntityManagerInterface $entityManager,
         private PetRepository $petRepository,
         private PetTypeRepository $petTypeRepository,
-        private BreedRepository $breedRepository
+        private BreedRepository $breedRepository,
+        private ValidatorInterface $validator
     ) {
     }
 
@@ -167,5 +172,52 @@ class PetService
             $choices[$i] = $i;
         }
         return $choices;
+    }
+
+    /**
+     * Get pet type by ID with exception handling
+     */
+    public function getPetTypeById(int $id): PetType
+    {
+        $petType = $this->petTypeRepository->find($id);
+        if (!$petType) {
+            throw PetTypeNotFoundException::forId($id);
+        }
+        return $petType;
+    }
+
+    /**
+     * Get breed by ID with exception handling
+     */
+    public function getBreedById(int $id): Breed
+    {
+        $breed = $this->breedRepository->find($id);
+        if (!$breed) {
+            throw BreedNotFoundException::forId($id);
+        }
+        return $breed;
+    }
+
+    /**
+     * Validate pet data
+     */
+    public function validatePet(Pet $pet): void
+    {
+        $violations = $this->validator->validate($pet);
+        if (count($violations) > 0) {
+            throw PetValidationException::fromViolations($violations);
+        }
+    }
+
+    /**
+     * Get pet by ID with exception handling
+     */
+    public function getPetById(int $id): Pet
+    {
+        $pet = $this->petRepository->find($id);
+        if (!$pet) {
+            throw new \InvalidArgumentException(sprintf('Pet with ID %d not found', $id));
+        }
+        return $pet;
     }
 }

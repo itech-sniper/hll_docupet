@@ -1,6 +1,25 @@
-version: '3.3'
+version: '3.8'
 
 services:
+  # PHP Application with Apache
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hll_docupet_app
+    ports:
+      - "8001:80"
+    volumes:
+      - .:/var/www/html
+    environment:
+      - APP_ENV=dev
+      - DATABASE_URL=mysql://root:password@db:3306/hll_docupet
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  # MySQL Database
   db:
     image: mysql:8.0
     container_name: hll_docupet_db
@@ -8,9 +27,15 @@ services:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: hll_docupet
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - db_data:/var/lib/mysql
+    networks:
+      - app-network
 
 volumes:
   db_data:
+
+networks:
+  app-network:
+    driver: bridge
